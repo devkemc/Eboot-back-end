@@ -1,4 +1,4 @@
-import { ClienteService } from "../../services/ClientsService";
+import { ClienteService } from "../../services/cliente-service";
 const clientes: string = "/clientes";
 
 export const configService = {

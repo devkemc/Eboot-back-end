@@ -1,7 +1,7 @@
 import { Entity } from "../../domain/i-entity";
 import { endpoints } from "../../routes";
-import { AbsServiceCrud } from "../../services/AbsServiceCrud";
-import { ClienteService } from "../../services/ClientsService";
+import { AbsServiceCrud } from "../../services/abs-service-crud";
+import { ClienteService } from "../../services/cliente-service";
 import { AbsCommandCrud } from "./abs-command-crud";
 import { configService } from "./config-command";
 import { CreateCommand } from "./creat-command";

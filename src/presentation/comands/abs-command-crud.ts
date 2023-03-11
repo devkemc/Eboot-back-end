@@ -1,5 +1,5 @@
 import { Entity } from "../../domain/i-entity";
-import { AbsServiceCrud } from "../../services/AbsServiceCrud";
+import { AbsServiceCrud } from "../../services/abs-service-crud";
 import { ICommand } from "./i-command";
 
 export abstract class AbsCommandCrud implements ICommand {
