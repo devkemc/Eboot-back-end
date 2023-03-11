@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  cli_id        Int        @id @default(autoincrement())
+  cli_nome      String     @db.VarChar(100)
+  cli_sobrenome String     @db.VarChar(100)
+  cli_genero    String     @db.VarChar(20)
+  cli_cpf       BigInt     @unique
+  cli_email     String     @unique @db.VarChar(100)
+  cli_senha     String     @db.VarChar(255)
+  cli_ranking   BigInt
+  cli_isActive  Boolean
+  cli_createdAt DateTime   @default(now())
+  cli_updateAt  DateTime   @updatedAt
+  cartao        Cartao[]
+  endereco      Endereco[]
+  telefone      Telefone[]
+}
+
+model Cartao {
+  crt_id            Int     @id @default(autoincrement())
+  crt_numero_cartao Int
+  crt_nome_impresso String  @db.VarChar(100)
+  crt_cod_seguranca Int
+  cliente           Cliente @relation(fields: [cliente_id], references: [cli_id])
+  cliente_id        Int
+}
+
+model BandeiraCartao {
+  band_crt_id        Int    @id @default(autoincrement())
+  band_crt_descricao String @db.VarChar(255)
+}
+
+model Telefone {
+  tel_id     Int     @id @default(autoincrement())
+  tel_tipo   String
+  tel_ddd    Int
+  tel_numero Int
+  cliente    Cliente @relation(fields: [cliente_id], references: [cli_id])
+  cliente_id Int
+}
+
+model Endereco {
+  end_id              Int     @id @default(autoincrement())
+  end_tipo_imovel     String
+  end_tipo_endereco   String
+  end_tipo_logradouro String
+  end_logradouro      String
+  end_numero          String
+  end_bairro          String
+  end_cep             Int
+  cliente             Cliente @relation(fields: [cliente_id], references: [cli_id])
+  cliente_id          Int
+  cidade              Cidade  @relation(fields: [cidade_id], references: [cid_id])
+  cidade_id           Int
+}
+
+model Cidade {
+  cid_id    Int        @id @default(autoincrement())
+  cid_nome  String
+  endereco  Endereco[]
+  estado    Estado     @relation(fields: [estado_id], references: [est_id])
+  estado_id Int
+}
+
+model Estado {
+  est_id   Int      @id @default(autoincrement())
+  est_nome String
+  cidade   Cidade[]
+}
