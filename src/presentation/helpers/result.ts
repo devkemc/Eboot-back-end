@@ -1,11 +1,13 @@
-import { response } from "express";
-import { Entity } from "../../domain/i-entity";
+import { Response } from "express";
+import { Entity } from "../../domain/interfaces/i-entity";
+import { HttpResponse } from "../protocols/http";
 
-export class Result {
+export class Result implements Entity {
   private _message!: string;
   private _error!: string;
   private _status!: number;
-  private _data!: Entity;
+  private _data!: Entity[] | Entity;
+  private _res!: Response;
 
   public get message(): string {
     return this._message;
@@ -27,23 +29,28 @@ export class Result {
   }
 
   public set status(s: number) {
-    this._status;
+    this._status = s;
   }
 
-  public get data(): Entity {
+  public get data(): Entity[] | Entity {
     return this._data;
   }
 
-  public set data(d: Entity) {
+  public set data(d: Entity[] | Entity) {
     this._data = d;
   }
 
-  public getResultSucess() {
-    response
-      .status(this._status)
-      .json({ message: this._message, data: this.data });
-  }
-  public getResultFail() {
-    response.status(this.status).json({ message: this._error });
+  public getResult(): HttpResponse {
+    const succes = {
+      statusCode: this._status,
+      message: this._message,
+      data: this._data,
+    };
+    const err = {
+      statusCode: this._status,
+      message: this._error,
+      data: this._data,
+    };
+    return this._error ? err : succes;
   }
 }

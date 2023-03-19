@@ -3,11 +3,11 @@ import { Entity } from "../../domain/interfaces/i-entity";
 
 import { AbsCommandCrud } from "./abs-command-crud";
 
-export class DeleteCommand extends AbsCommandCrud {
+export class CreateCommand extends AbsCommandCrud {
   constructor(service: AbsServiceCrud) {
     super(service);
   }
-  public exec(entity: Entity) {
-    return this.service.delete(entity);
+  public async exec(entity: Entity) {
+    return await this.service.create(entity);
   }
 }

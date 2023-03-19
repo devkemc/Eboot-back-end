@@ -1,5 +1,5 @@
-import { Entity } from "../../domain/i-entity";
-import { AbsServiceCrud } from "../../services/abs-service-crud";
+import { AbsServiceCrud } from "../../core/services/abs-service-crud";
+import { Entity } from "../../domain/interfaces/i-entity";
 import { AbsCommandCrud } from "./abs-command-crud";
 
 export class UpdateCommand extends AbsCommandCrud {

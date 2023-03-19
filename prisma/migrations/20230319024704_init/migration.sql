@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Cliente" ADD COLUMN     "cli_dataNascimento" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

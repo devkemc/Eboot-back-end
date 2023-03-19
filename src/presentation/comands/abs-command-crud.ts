@@ -1,5 +1,7 @@
-import { Entity } from "../../domain/i-entity";
-import { AbsServiceCrud } from "../../services/abs-service-crud";
+import { AbsServiceCrud } from "../../core/services/abs-service-crud";
+import { Entity } from "../../domain/interfaces/i-entity";
+import { Result } from "../helpers/result";
+
 import { ICommand } from "./i-command";
 
 export abstract class AbsCommandCrud implements ICommand {
@@ -8,7 +10,7 @@ export abstract class AbsCommandCrud implements ICommand {
   constructor(service: AbsServiceCrud) {
     this.service = service;
   }
-  public exec(entity: Entity) {
-    return Promise.resolve(entity);
+  public async exec(entity: Entity) {
+    return await Promise.resolve(new Result());
   }
 }

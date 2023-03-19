@@ -1,20 +1,19 @@
-import { Entity } from "../../domain/i-entity";
-import { endpoints } from "../../routes";
-import { AbsServiceCrud } from "../../services/abs-service-crud";
-import { ClienteService } from "../../services/cliente-service";
+import { Entity } from "../../domain/interfaces/i-entity";
+
 import { AbsCommandCrud } from "./abs-command-crud";
-import { configService } from "./config-command";
-import { CreateCommand } from "./creat-command";
+import { getService } from "../../core/services/factory-service";
+import { CreateCommand } from "./create-command";
 import { DeleteCommand } from "./delete-command";
 import { GetAllCommand } from "./get-command";
 import { GetOneCommand } from "./get-one-command";
 import { UpdateCommand } from "./update-command";
+import { AbsServiceCrud } from "../../core/services/abs-service-crud";
 
 export class FactoryCommandCrud {
   static service: AbsServiceCrud;
 
   public static getCommand(method: Entity, path: string): AbsCommandCrud {
-    this.service = configService[path];
+    this.service = getService[path];
     switch (method) {
       case "GET":
         return new GetAllCommand(this.service);
