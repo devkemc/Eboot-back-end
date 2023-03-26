@@ -12,6 +12,7 @@ import { EnderecoEntity } from "../../../domain/entities/endereco-Entity";
 export class ClienteViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {
+      id,
       nome,
       sobrenome,
       cpf,
@@ -54,6 +55,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
 
     super(
       new ClienteEntity({
+        id,
         nome,
         sobrenome,
         dataNascimento: new Date(dataNascimento),

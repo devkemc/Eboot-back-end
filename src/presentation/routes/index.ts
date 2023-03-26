@@ -10,3 +10,5 @@ routes.get("/", controllerCrud.handle);
 
 routes.get(`${clientes}`, controllerCrud.handle);
 routes.post(`${clientes}`, controllerCrud.handle);
+routes.delete(`${clientes}`, controllerCrud.handle);
+

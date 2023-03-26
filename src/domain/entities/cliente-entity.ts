@@ -107,4 +107,7 @@ export class ClienteEntity extends AbstractEntity {
   public get telefone() {
     return this._telefone;
   }
+  public get id(){
+    return this._id;
+  }
 }

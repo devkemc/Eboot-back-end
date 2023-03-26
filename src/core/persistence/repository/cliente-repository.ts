@@ -1,4 +1,5 @@
 import { ClienteEntity } from "../../../domain/entities/cliente-entity";
+import { Entity } from "../../../domain/interfaces/i-entity";
 import { Result } from "../../../presentation/helpers/result";
 import { AbstractRepository } from "./abstract-repository";
 
@@ -58,7 +59,7 @@ export class ClienteRepository extends AbstractRepository {
       console.log(err);
 
       result.status = 400;
-      result.error = "deu errado" + err;
+      result.error = "deu erro na criação";
     }
 
     return result;
@@ -67,13 +68,51 @@ export class ClienteRepository extends AbstractRepository {
   public async getAll(): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.cliente.findMany();
+      const clientes = await this.conection.cliente.findMany({
+        where: { cli_isActive: true },
+      });
       result.data = clientes;
       result.status = 200;
       result.message = "clientes recuperados com sucesso";
     } catch {
       result.status = 401;
-      result.message = "deu erro";
+      result.error = "deu erro";
+    }
+    return result;
+  }
+
+  public async delete(cliente: ClienteEntity): Promise<Result> {
+    const result = new Result();
+    try {
+      const clientes = await this.conection.cliente.update({
+        where: { cli_id: cliente.id },
+        data: {
+          cli_isActive: false,
+        },
+      });
+      result.data = clientes;
+      result.message = "cliente inativado com sucesso";
+      result.status = 200;
+    } catch {
+      result.status = 400;
+      result.error = "deu erro na exclusão";
+    }
+    return result;
+  }
+  public async getOne(entity: ClienteEntity): Promise<Result> {
+    const result = new Result();
+    try {
+      const cliente = await this.conection.cliente.findUnique({
+        where: {
+          cli_id: entity.id,
+        },
+      });
+      cliente && (result.data = cliente);
+      result.message = "cliente recuperado com sucesso";
+      result.status = 200;
+    } catch {
+      result.status = 400;
+      result.error = "deu erro na consulta do cliente";
     }
     return result;
   }

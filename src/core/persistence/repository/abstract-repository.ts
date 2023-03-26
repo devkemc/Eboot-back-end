@@ -1,29 +1,27 @@
 import { PrismaClient } from "@prisma/client";
 import { Entity } from "../../../domain/interfaces/i-entity";
 import { Result } from "../../../presentation/helpers/result";
+import { IRepository } from "../../interfaces/i-repository";
 
-export abstract class AbstractRepository {
+export abstract class AbstractRepository implements IRepository {
   protected conection: PrismaClient;
 
   constructor() {
     this.conection = new PrismaClient();
   }
-  public create(entity: Entity) {
-    return Promise.resolve(new Result());
+  create(entity: Entity): Promise<Result> {
+    throw new Error("Method not implemented.");
   }
-
-  public getAll() {
-    return Promise.resolve(new Result());
+  getAll(): Promise<Result> {
+    throw new Error("Method not implemented.");
   }
-
-  public delete(entity: Entity) {
-    return Promise.resolve(new Result());
+  delete(entity: Entity): Promise<Result> {
+    throw new Error("Method not implemented.");
   }
-
-  public getOne(entity: Entity) {
-    return Promise.resolve(new Result());
+  getOne(entity: Entity): Promise<Result> {
+    throw new Error("Method not implemented.");
   }
-  public update(entity: Entity) {
-    return Promise.resolve(new Result());
+  update(entity: Entity): Promise<Result> {
+    throw new Error("Method not implemented.");
   }
 }
