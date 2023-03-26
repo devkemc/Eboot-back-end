@@ -15,7 +15,7 @@ type ClienteConstructor = {
   ranking: number;
   isActive: boolean;
   cartao?: CartaoEntity;
-  endereco?: EnderecoEntity;
+  endereco: EnderecoEntity;
   telefone: TelefoneEntity;
 };
 export class ClienteEntity extends AbstractEntity {
@@ -30,7 +30,7 @@ export class ClienteEntity extends AbstractEntity {
   private _ranking: number;
   private _isActive: boolean;
   private _cartao?: CartaoEntity;
-  private _endereco?: EnderecoEntity;
+  private _endereco: EnderecoEntity;
 
   constructor({
     cpf,
@@ -55,8 +55,8 @@ export class ClienteEntity extends AbstractEntity {
     this._genero = genero;
     this._nome = nome;
     this._sobrenome = sobrenome;
-    this._isActive = isActive;
-    this._ranking = ranking;
+    this._isActive = isActive = true
+    this._ranking = ranking = 0;
     this._senha = senha;
     this._cartao = cartao;
     this._telefone = telefone;

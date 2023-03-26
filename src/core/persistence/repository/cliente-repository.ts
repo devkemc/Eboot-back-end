@@ -27,6 +27,27 @@ export class ClienteRepository extends AbstractRepository {
               tel_numero: cliente.telefone.numero,
             },
           },
+          endereco: {
+            create: {
+              end_tipo_logradouro: cliente.endereco.tipoLogradouro,
+              end_tipo_imovel: cliente.endereco.tipoImovel,
+              end_tipo_endereco: cliente.endereco.tipoEndereco,
+              end_logradouro: cliente.endereco.logradouro,
+              end_numero: cliente.endereco.numero,
+              end_bairro: cliente.endereco.bairro,
+              end_cep: cliente.endereco.cep,
+              cidade: {
+                create: {
+                  cid_nome: cliente.endereco.cidade.nome,
+                  estado: {
+                    create: {
+                      est_nome: cliente.endereco.cidade.estado.nome,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 

@@ -1,6 +1,6 @@
 import { ClienteEntity } from "../../domain/entities/cliente-entity";
 import { Result } from "../../presentation/helpers/result";
-import { IStrategy } from "./i-strategy";
+import { IStrategy } from "../interfaces/i-strategy";
 
 export class ValidaSenhaForte implements IStrategy {
   async processar(entidade: ClienteEntity): Promise<Result> {

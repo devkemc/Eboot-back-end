@@ -6,6 +6,8 @@ import { ClienteEntity } from "../../../domain/entities/cliente-entity";
 import { TelefoneEntity } from "../../../domain/entities/telefone-entity";
 import { Entity } from "../../../domain/interfaces/i-entity";
 import { AbstractViewHelper } from "./abstract-view-helper";
+import { EstadoEntity } from "../../../domain/entities/estado-entity";
+import { EnderecoEntity } from "../../../domain/entities/endereco-Entity";
 
 export class ClienteViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
@@ -22,7 +24,28 @@ export class ClienteViewHelper extends AbstractViewHelper {
       tipoTelefone,
       dddTelefone,
       numeroTelefone,
+      tipoEndereco,
+      tipoLogradouro,
+      tipoImovel,
+      logradouro,
+      numeroEndereco,
+      bairro,
+      cep,
+      nomeCidade,
+      nomeEstado,
     } = req.body;
+    const estado = new EstadoEntity({ nomeEstado });
+    const cidade = new CidadeEntity({ nomeCidade, estado });
+    const endereco = new EnderecoEntity({
+      tipoImovel,
+      tipoEndereco,
+      logradouro,
+      tipoLogradouro,
+      bairro,
+      numeroEndereco,
+      cep,
+      cidade,
+    });
     const telefone = new TelefoneEntity({
       numeroTelefone,
       dddTelefone,
@@ -41,6 +64,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
         cpf,
         genero,
         telefone,
+        endereco,
       })
     );
   }

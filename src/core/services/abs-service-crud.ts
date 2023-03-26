@@ -1,7 +1,7 @@
 import { empty } from "@prisma/client/runtime";
 import { Entity } from "../../domain/interfaces/i-entity";
 import { AbstractRepository } from "../persistence/repository/abstract-repository";
-import { IStrategy } from "../strategies/i-strategy";
+import { IStrategy } from "../interfaces/i-strategy";
 
 export abstract class AbsServiceCrud {
   protected repository!: AbstractRepository;

@@ -60,8 +60,8 @@ model Endereco {
   end_numero          String
   end_bairro          String
   end_cep             Int
-  cliente             Cliente? @relation(fields: [cliente_id], references: [cli_id])
-  cliente_id          Int?
+  cliente             Cliente @relation(fields: [cliente_id], references: [cli_id])
+  cliente_id          Int
   cidade              Cidade   @relation(fields: [cidade_id], references: [cid_id])
   cidade_id           Int
 }

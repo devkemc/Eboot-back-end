@@ -5,9 +5,9 @@ export class FactoryService {
   public static createService(path: string) {
     switch (path) {
       case clientes:
-        return new ClienteService();
+        return new ClienteService()
       default:
-        return new ClienteService();
+        return new ClienteService()
     }
   }
 }
