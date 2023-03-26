@@ -1,21 +1,19 @@
+import { empty } from "@prisma/client/runtime";
 import { Entity } from "../../domain/interfaces/i-entity";
 import { AbstractRepository } from "../persistence/repository/abstract-repository";
 import { IStrategy } from "../strategies/i-strategy";
 
 export abstract class AbsServiceCrud {
-  protected repository: AbstractRepository;
-  protected strategies: Array<IStrategy>;
-  constructor(rep: AbstractRepository, strategies: Array<IStrategy>) {
-    this.repository = rep;
-    this.strategies = strategies;
-  }
+  protected repository!: AbstractRepository;
+  protected strategies!: Array<IStrategy>;
+  constructor() {}
 
   public async create(entity: Entity) {
-    let result
+    let result;
     for (let strategy of this.strategies) {
       result = await strategy.processar(entity);
-      if (result.error){
-        return result
+      if (result.error) {
+        return result;
       }
     }
     return await this.repository.create(entity);
