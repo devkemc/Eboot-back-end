@@ -8,7 +8,6 @@ export class ControllerCrud {
   public async handle(req: Request, res: Response) {
     const viewHelper = FactoryViewHelper.getViewHelper(req);
     const entity = viewHelper!.getView();
-    console.log(entity);
     const cmd = FactoryCommandCrud.getCommand(req.method, req.path);
     const result = await cmd.exec(entity);
     result.data && (result.data = viewHelper?.setView(result.data) as Entity[]);

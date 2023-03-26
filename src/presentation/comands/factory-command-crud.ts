@@ -21,7 +21,7 @@ export class FactoryCommandCrud {
         return new CreateCommand(this.service);
       case "DELETE":
         return new DeleteCommand(this.service);
-      case "PATH":
+      case "PATCH":
         return new UpdateCommand(this.service);
       default:
         return new GetOneCommand(this.service);

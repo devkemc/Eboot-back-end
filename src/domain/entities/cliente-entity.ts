@@ -55,8 +55,8 @@ export class ClienteEntity extends AbstractEntity {
     this._genero = genero;
     this._nome = nome;
     this._sobrenome = sobrenome;
-    this._isActive = isActive = true
-    this._ranking = ranking = 0;
+    this._isActive = isActive? isActive: true;
+    this._ranking = ranking ? ranking : 0;
     this._senha = senha;
     this._cartao = cartao;
     this._telefone = telefone;

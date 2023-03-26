@@ -58,7 +58,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
         id,
         nome,
         sobrenome,
-        dataNascimento: new Date(dataNascimento),
+        dataNascimento,
         email,
         senha,
         ranking,

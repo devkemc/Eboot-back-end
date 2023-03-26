@@ -56,8 +56,6 @@ export class ClienteRepository extends AbstractRepository {
       result.message = "cliente criado com sucesso";
       result.data = create;
     } catch (err) {
-      console.log(err);
-
       result.status = 400;
       result.error = "deu erro na criação";
     }
@@ -95,7 +93,7 @@ export class ClienteRepository extends AbstractRepository {
       result.status = 200;
     } catch {
       result.status = 400;
-      result.error = "deu erro na exclusão";
+      result.error = "erro na exclusão";
     }
     return result;
   }
@@ -112,7 +110,35 @@ export class ClienteRepository extends AbstractRepository {
       result.status = 200;
     } catch {
       result.status = 400;
-      result.error = "deu erro na consulta do cliente";
+      result.error = "erro na consulta do cliente";
+    }
+    return result;
+  }
+  public async update(cliente: ClienteEntity): Promise<Result> {
+    const result = new Result();
+    try {
+      const clientes = await this.conection.cliente.update({
+        where: { cli_id: cliente.id },
+        data: {
+          cli_nome: cliente.nome,
+          cli_sobrenome: cliente.sobrenome,
+          cli_dataNascimento: cliente.dataNascimento,
+          cli_email: cliente.email,
+          cli_cpf: cliente.cpf,
+          cli_genero: cliente.genero,
+          cli_isActive: cliente.isActive,
+          cli_ranking: cliente.ranking,
+          cli_senha: cliente.senha,
+        },
+      });
+      result.data = clientes;
+      result.message = "Dados atualizados com sucesso";
+      result.status = 200;
+    } catch (e) {
+      console.log(e);
+
+      result.status = 400;
+      result.error = "erro na atualização do cliente";
     }
     return result;
   }

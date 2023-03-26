@@ -23,4 +23,12 @@ export class ClienteService extends AbsServiceCrud {
     }
     return this.repository.delete(cliente);
   }
+  public async update(cliente: ClienteEntity): Promise<Result> {
+    const valida = new ValidaExistencia();
+    const result = await valida.processar(cliente);
+    if (result.error) {
+      return result;
+    }
+    return this.repository.update(cliente);
+  }
 }
