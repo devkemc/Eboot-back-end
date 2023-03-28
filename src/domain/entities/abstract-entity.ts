@@ -5,4 +5,7 @@ export class AbstractEntity implements Entity {
   constructor(i?: number) {
     this._id = i;
   }
+  get id(): number | undefined {
+    return this._id;
+  }
 }

@@ -1,6 +1,5 @@
 import { Cliente } from "@prisma/client";
 import { Request } from "express";
-import { CartaoEntity } from "../../../domain/entities/cartao-entity";
 import { CidadeEntity } from "../../../domain/entities/cidade-entity";
 import { ClienteEntity } from "../../../domain/entities/cliente-entity";
 import { TelefoneEntity } from "../../../domain/entities/telefone-entity";
@@ -52,13 +51,14 @@ export class ClienteViewHelper extends AbstractViewHelper {
       dddTelefone,
       tipoTelefone,
     });
-
     super(
       new ClienteEntity({
-        id,
+        id: req.params.id ? Number(req.params.id) : id,
         nome,
         sobrenome,
-        dataNascimento,
+        dataNascimento: dataNascimento
+          ? new Date(dataNascimento)
+          : dataNascimento,
         email,
         senha,
         ranking,
@@ -83,8 +83,8 @@ export class ClienteViewHelper extends AbstractViewHelper {
         email: cliente.cli_email,
         cpf: cliente.cli_cpf,
         genero: cliente.cli_genero,
-        ranking: cliente.cli_ranking,
-        isActive: cliente.cli_isActive,
+        senha: cliente.cli_senha,
+        dataNascimento: cliente.cli_dataNascimento,
       };
     }
 

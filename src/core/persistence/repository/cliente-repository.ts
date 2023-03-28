@@ -58,6 +58,9 @@ export class ClienteRepository extends AbstractRepository {
     } catch (err) {
       result.status = 400;
       result.error = "deu erro na criação";
+      console.log(err);
+    } finally {
+      await this.destroy();
     }
 
     return result;
@@ -66,15 +69,15 @@ export class ClienteRepository extends AbstractRepository {
   public async getAll(): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.cliente.findMany({
-        where: { cli_isActive: true },
-      });
+      const clientes = await this.conection.cliente.findMany({});
       result.data = clientes;
       result.status = 200;
       result.message = "clientes recuperados com sucesso";
     } catch {
       result.status = 401;
       result.error = "deu erro";
+    } finally {
+      await this.destroy();
     }
     return result;
   }
@@ -94,6 +97,8 @@ export class ClienteRepository extends AbstractRepository {
     } catch {
       result.status = 400;
       result.error = "erro na exclusão";
+    } finally {
+      await this.destroy();
     }
     return result;
   }
@@ -108,9 +113,12 @@ export class ClienteRepository extends AbstractRepository {
       cliente && (result.data = cliente);
       result.message = "cliente recuperado com sucesso";
       result.status = 200;
-    } catch {
+    } catch (e) {
       result.status = 400;
       result.error = "erro na consulta do cliente";
+      console.log(e);
+    } finally {
+      await this.destroy();
     }
     return result;
   }
@@ -139,6 +147,8 @@ export class ClienteRepository extends AbstractRepository {
 
       result.status = 400;
       result.error = "erro na atualização do cliente";
+    } finally {
+      await this.destroy();
     }
     return result;
   }

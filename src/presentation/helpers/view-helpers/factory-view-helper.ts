@@ -5,7 +5,8 @@ import { ProductsViewHelper } from "./product-view-helper";
 
 export class FactoryViewHelper {
   public static getViewHelper(req: Request) {
-    switch (req.path) {
+    const path = `/${req.path.split("/").slice(1, 2).join()}`;
+    switch (path) {
       case "/products":
         return new ProductsViewHelper(req);
       case `${clientes}`:
