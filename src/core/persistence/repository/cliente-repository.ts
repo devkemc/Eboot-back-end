@@ -1,11 +1,12 @@
 import { ClienteEntity } from "../../../domain/entities/cliente-entity";
 import { PessoaEntity } from "../../../domain/entities/pessoa-entity";
 import { Result } from "../../../presentation/helpers/result";
+import { IRepositoryCrud } from "../../interfaces/i-repository-crud";
+
 import { cryptoPassword } from "../../utils/cryptoPassword";
 import { AbstractRepository } from "./abstract-repository";
-import { hash } from "bcryptjs";
 
-export class PessoaRepository extends AbstractRepository {
+export class PessoaRepository extends AbstractRepository implements IRepositoryCrud {
   constructor() {
     super();
   }

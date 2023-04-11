@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { Entity } from "../../../domain/interfaces/i-entity";
 import { Result } from "../../../presentation/helpers/result";
-import { IRepository } from "../../interfaces/i-repository";
 
-export abstract class AbstractRepository implements IRepository {
+
+export abstract class AbstractRepository {
   private _conection!: PrismaClient;
 
   constructor() {}
@@ -17,20 +17,5 @@ export abstract class AbstractRepository implements IRepository {
     if (this._conection) {
       await this._conection.$disconnect();
     }
-  }
-  create(entity: Entity): Promise<Result> {
-    throw new Error("Method not implemented.");
-  }
-  getAll(): Promise<Result> {
-    throw new Error("Method not implemented.");
-  }
-  delete(entity: Entity): Promise<Result> {
-    throw new Error("Method not implemented.");
-  }
-  getOne(entity: Entity): Promise<Result> {
-    throw new Error("Method not implemented.");
-  }
-  update(entity: Entity): Promise<Result> {
-    throw new Error("Method not implemented.");
   }
 }
