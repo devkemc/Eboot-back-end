@@ -1,9 +1,9 @@
-import { ClienteEntity } from "../../domain/entities/cliente-entity";
+import { PessoaEntity } from "../../domain/entities/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
 import { IStrategy } from "../interfaces/i-strategy";
 
 export class ValidaSenhaForte implements IStrategy {
-  async processar(entidade: ClienteEntity): Promise<Result> {
+  async processar(entidade: PessoaEntity): Promise<Result> {
     const result = new Result();
     const senhaValida =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;

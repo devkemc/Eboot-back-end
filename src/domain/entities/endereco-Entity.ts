@@ -1,11 +1,12 @@
+import { TipoEndereco, TipoImovel, TipoLogradouro } from "@prisma/client";
 import { AbstractEntity } from "./abstract-entity";
 import { CidadeEntity } from "./cidade-entity";
 
 type EnderecoConstructor = {
   id?: number;
-  tipoImovel: string;
-  tipoEndereco: string;
-  tipoLogradouro: string;
+  tipoImovel: TipoImovel;
+  tipoEndereco: TipoEndereco;
+  tipoLogradouro: TipoLogradouro;
   logradouro: string;
   numeroEndereco: string;
   bairro: string;
@@ -13,9 +14,9 @@ type EnderecoConstructor = {
   cidade: CidadeEntity;
 };
 export class EnderecoEntity extends AbstractEntity {
-  private _tipoImovel: string;
-  private _tipoEndereco: string;
-  private _tipoLogradouro: string;
+  private _tipoImovel: TipoImovel;
+  private _tipoEndereco: TipoEndereco;
+  private _tipoLogradouro: TipoLogradouro;
   private _logradouro: string;
   private _numero: string;
   private _bairro: string;

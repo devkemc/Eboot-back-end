@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { ControllerCrud } from "../controllers/controller-crud";
+import { CrudController } from "../controllers/crud-controller";
 import { clientes } from "./endpoint";
 
 export const routes = Router();
 
-const controllerCrud = new ControllerCrud();
+const controllerCrud = new CrudController();
 
 routes.get("/", controllerCrud.handle);
 

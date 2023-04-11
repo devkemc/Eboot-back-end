@@ -1,12 +1,13 @@
-import { Cliente } from "@prisma/client";
+import { Pessoa, TipoPessoa } from "@prisma/client";
 import { Request } from "express";
 import { CidadeEntity } from "../../../domain/entities/cidade-entity";
-import { ClienteEntity } from "../../../domain/entities/cliente-entity";
+import { PessoaEntity } from "../../../domain/entities/pessoa-entity";
 import { TelefoneEntity } from "../../../domain/entities/telefone-entity";
 import { Entity } from "../../../domain/interfaces/i-entity";
 import { AbstractViewHelper } from "./abstract-view-helper";
 import { EstadoEntity } from "../../../domain/entities/estado-entity";
 import { EnderecoEntity } from "../../../domain/entities/endereco-Entity";
+import { ClienteEntity } from "../../../domain/entities/cliente-entity";
 
 export class ClienteViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
@@ -53,6 +54,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
     });
     super(
       new ClienteEntity({
+        tipoPessoa : TipoPessoa.CLIENTE,
         id: req.params.id ? Number(req.params.id) : id,
         nome,
         sobrenome,
@@ -72,32 +74,29 @@ export class ClienteViewHelper extends AbstractViewHelper {
   }
 
   public setView(entity: Entity[] | Entity) {
-    const clientes = entity as Cliente[];
+    const clientes = entity as Pessoa[];
     const clientesResponse = [];
     if (!Array.isArray(clientes)) {
-      const cliente = entity as Cliente;
+      const cliente = entity as Pessoa;
       return {
-        id: cliente.cli_id,
-        nome: cliente.cli_nome,
-        sobrenome: cliente.cli_sobrenome,
-        email: cliente.cli_email,
-        cpf: cliente.cli_cpf,
-        genero: cliente.cli_genero,
-        senha: cliente.cli_senha,
-        dataNascimento: cliente.cli_dataNascimento,
+        id: cliente.pes_id,
+        nome: cliente.pes_nome,
+        sobrenome: cliente.pes_sobrenome,
+        cpf: cliente.pes_cpf,
+        genero: cliente.pes_genero,
+        dataNascimento: cliente.pes_dataNascimento,
       };
     }
 
     for (const cli of clientes) {
       clientesResponse.push({
-        id: cli.cli_id,
-        nome: cli.cli_nome,
-        sobrenome: cli.cli_sobrenome,
-        email: cli.cli_email,
-        cpf: cli.cli_cpf,
-        genero: cli.cli_genero,
-        ranking: cli.cli_ranking,
-        isActive: cli.cli_isActive,
+        id: cli.pes_id,
+        nome: cli.pes_nome,
+        sobrenome: cli.pes_sobrenome,
+        cpf: cli.pes_cpf,
+        genero: cli.pes_genero,
+        ranking: cli.ranking,
+        isActive: cli.pes_isActive,
       });
     }
 

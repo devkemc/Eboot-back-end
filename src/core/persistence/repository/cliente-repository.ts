@@ -1,26 +1,35 @@
 import { ClienteEntity } from "../../../domain/entities/cliente-entity";
-import { Entity } from "../../../domain/interfaces/i-entity";
+import { PessoaEntity } from "../../../domain/entities/pessoa-entity";
 import { Result } from "../../../presentation/helpers/result";
+import { cryptoPassword } from "../../utils/cryptoPassword";
 import { AbstractRepository } from "./abstract-repository";
+import { hash } from "bcryptjs";
 
-export class ClienteRepository extends AbstractRepository {
+export class PessoaRepository extends AbstractRepository {
   constructor() {
     super();
   }
   public async create(cliente: ClienteEntity): Promise<Result> {
+    const senhaCriptografada = await cryptoPassword(cliente.senha);
     const result = new Result();
     try {
-      const create = await this.conection.cliente.create({
+      const create = await this.conection.pessoa.create({
         data: {
-          cli_nome: cliente.nome,
-          cli_sobrenome: cliente.sobrenome,
-          cli_dataNascimento: cliente.dataNascimento,
-          cli_email: cliente.email,
-          cli_cpf: cliente.cpf,
-          cli_genero: cliente.genero,
-          cli_isActive: cliente.isActive,
-          cli_ranking: cliente.ranking,
-          cli_senha: cliente.senha,
+          pes_nome: cliente.nome,
+          pes_sobrenome: cliente.sobrenome,
+          pes_dataNascimento: cliente.dataNascimento,
+          pes_cpf: cliente.cpf,
+          pes_genero: cliente.genero,
+          pes_isActive: cliente.isActive,
+          pes_tipo: cliente.tipoPessoa,
+          ranking: cliente.ranking,
+          usuario: {
+            create:{
+              user_email: cliente.email,
+              user_senha: senhaCriptografada,
+              user_admin: false,
+            }
+          },
           telefone: {
             create: {
               tel_tipo: cliente.telefone.tipo,
@@ -69,8 +78,8 @@ export class ClienteRepository extends AbstractRepository {
   public async getAll(): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.cliente.findMany({});
-      result.data = clientes;
+      const pessoas = await this.conection.pessoa.findMany({});
+      result.data = pessoas;
       result.status = 200;
       result.message = "clientes recuperados com sucesso";
     } catch {
@@ -82,13 +91,13 @@ export class ClienteRepository extends AbstractRepository {
     return result;
   }
 
-  public async delete(cliente: ClienteEntity): Promise<Result> {
+  public async delete(cliente: PessoaEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.cliente.update({
-        where: { cli_id: cliente.id },
+      const clientes = await this.conection.pessoa.update({
+        where: { pes_id: cliente.id },
         data: {
-          cli_isActive: false,
+          pes_isActive: false,
         },
       });
       result.data = clientes;
@@ -102,12 +111,12 @@ export class ClienteRepository extends AbstractRepository {
     }
     return result;
   }
-  public async getOne(entity: ClienteEntity): Promise<Result> {
+  public async getOne(entity: PessoaEntity): Promise<Result> {
     const result = new Result();
     try {
-      const cliente = await this.conection.cliente.findUnique({
+      const cliente = await this.conection.pessoa.findUnique({
         where: {
-          cli_id: entity.id,
+          pes_id: entity.id,
         },
       });
       cliente && (result.data = cliente);
@@ -125,18 +134,22 @@ export class ClienteRepository extends AbstractRepository {
   public async update(cliente: ClienteEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.cliente.update({
-        where: { cli_id: cliente.id },
+      const clientes = await this.conection.pessoa.update({
+        where: { pes_id: cliente.id },
         data: {
-          cli_nome: cliente.nome,
-          cli_sobrenome: cliente.sobrenome,
-          cli_dataNascimento: cliente.dataNascimento,
-          cli_email: cliente.email,
-          cli_cpf: cliente.cpf,
-          cli_genero: cliente.genero,
-          cli_isActive: cliente.isActive,
-          cli_ranking: cliente.ranking,
-          cli_senha: cliente.senha,
+          pes_nome: cliente.nome,
+          pes_sobrenome: cliente.sobrenome,
+          pes_dataNascimento: cliente.dataNascimento,
+          usuario: {
+            update:{
+              user_email: cliente.email,
+              user_senha: cliente.senha,
+            }
+          },
+          pes_cpf: cliente.cpf,
+          pes_genero: cliente.genero,
+          pes_isActive: cliente.isActive,
+          ranking: cliente.ranking,
         },
       });
       result.data = clientes;

@@ -10,60 +10,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cliente {
-  cli_id             Int        @id @default(autoincrement())
-  cli_nome           String     @db.VarChar(100)
-  cli_sobrenome      String     @db.VarChar(100)
-  cli_dataNascimento DateTime   @default(now()) @db.Date
-  cli_genero         String     @db.VarChar(20)
-  cli_cpf            String     @unique
-  cli_email          String     @unique @db.VarChar(100)
-  cli_senha          String     @db.VarChar(255)
-  cli_ranking        Float
-  cli_isActive       Boolean
-  cli_createdAt      DateTime   @default(now())
-  cli_updateAt       DateTime   @updatedAt
+model Pessoa {
+  pes_id             Int        @id @default(autoincrement())
+  pes_nome           String     @db.VarChar(100)
+  pes_sobrenome      String     @db.VarChar(100)
+  pes_dataNascimento DateTime   @default(now()) @db.Date
+  pes_genero         String     @db.VarChar(20)
+  pes_cpf            String     @unique
+  pes_isActive       Boolean
+  pes_createdAt      DateTime   @default(now())
+  pes_updateAt       DateTime   @updatedAt
+  pes_tipo           TipoPessoa
+  usuario            Usuario @relation(fields: [usuario_id], references: [user_id])
+  usuario_id         Int @unique
+  ranking            Float?
   cartao             Cartao[]
   endereco           Endereco[]
   telefone           Telefone[]
 }
 
-model Cartao {
-  crt_id            Int      @id @default(autoincrement())
-  crt_numero_cartao Float
-  crt_nome_impresso String   @db.VarChar(100)
-  crt_cod_seguranca Int
-  cliente           Cliente? @relation(fields: [cliente_id], references: [cli_id])
-  cliente_id        Int?
+enum TipoPessoa {
+  CLIENTE
+  ADMINISTRADOR
 }
 
-model BandeiraCartao {
-  band_crt_id        Int    @id @default(autoincrement())
-  band_crt_descricao String @db.VarChar(255)
+model Usuario {
+  user_id    Int     @id @default(autoincrement())
+  user_email String  @unique @db.VarChar(100)
+  user_senha String  @db.VarChar(255)
+  user_admin Boolean
+  pessoa    Pessoa? 
+}
+
+model Cartao {
+  crt_id            Int            @id @default(autoincrement())
+  crt_bandeira      BandeiraCartao
+  crt_numero_cartao Float
+  crt_nome_impresso String         @db.VarChar(100)
+  crt_cod_seguranca Int
+  pessoa            Pessoa?        @relation(fields: [pessoa_id], references: [pes_id])
+  pessoa_id         Int?
+}
+
+enum BandeiraCartao {
+  VISA
+  MASTERCARD
+  ELO
 }
 
 model Telefone {
-  tel_id     Int      @id @default(autoincrement())
-  tel_tipo   String
+  tel_id     Int          @id @default(autoincrement())
+  tel_tipo   TipoTelefone
   tel_ddd    Int
   tel_numero Int
-  cliente    Cliente? @relation(fields: [cliente_id], references: [cli_id])
-  cliente_id Int?
+  pessoa     Pessoa?      @relation(fields: [pessoa_id], references: [pes_id])
+  pessoa_id  Int?
+}
+
+enum TipoTelefone {
+  CELULAR
+  FIXO
 }
 
 model Endereco {
-  end_id              Int      @id @default(autoincrement())
-  end_tipo_imovel     String
-  end_tipo_endereco   String
-  end_tipo_logradouro String
+  end_id              Int            @id @default(autoincrement())
+  end_tipo_imovel     TipoImovel
+  end_tipo_endereco   TipoEndereco
+  end_tipo_logradouro TipoLogradouro
   end_logradouro      String
   end_numero          String
   end_bairro          String
   end_cep             Int
-  cliente             Cliente @relation(fields: [cliente_id], references: [cli_id])
-  cliente_id          Int
-  cidade              Cidade   @relation(fields: [cidade_id], references: [cid_id])
+  pessoa              Pessoa         @relation(fields: [pessoa_id], references: [pes_id])
+  pessoa_id           Int
+  cidade              Cidade         @relation(fields: [cidade_id], references: [cid_id])
   cidade_id           Int
+}
+
+enum TipoImovel {
+  COMERCIAL
+  RESIDENCIAL
+}
+
+enum TipoEndereco {
+  COBRANCA
+  ENTREGA
+}
+
+enum TipoLogradouro {
+  RUA
+  AVENIDA
+  PRACA
+  ESTRADA
 }
 
 model Cidade {

@@ -1,11 +1,11 @@
-import { ClienteEntity } from "../../domain/entities/cliente-entity";
+import { PessoaEntity } from "../../domain/entities/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
 import { IStrategy } from "../interfaces/i-strategy";
 import { ValidaEndereco } from "./valida-endereco";
 import { ValidaTelefone } from "./valida-telefone";
 
 export class ValidarDadosObrigatoriosCliente implements IStrategy {
-  async processar(entidade: ClienteEntity): Promise<Result> {
+  async processar(entidade: PessoaEntity): Promise<Result> {
     let result = new Result();
     const validaTel = new ValidaTelefone();
     const validaEnd = new ValidaEndereco();

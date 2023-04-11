@@ -1,6 +1,6 @@
-import { ClienteEntity } from "../../domain/entities/cliente-entity";
+import { PessoaEntity } from "../../domain/entities/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
-import { ClienteRepository } from "../persistence/repository/cliente-repository";
+import { PessoaRepository } from "../persistence/repository/cliente-repository";
 import { ValidaExistencia } from "../strategies/valida-existência";
 import { ValidaSenhaForte } from "../strategies/valida-senha-forte";
 import { ValidarDadosObrigatoriosCliente } from "../strategies/validar-dados-obrigatorios-cliente";
@@ -9,13 +9,13 @@ import { AbsServiceCrud } from "./abs-service-crud";
 export class ClienteService extends AbsServiceCrud {
   constructor() {
     super();
-    this.repository = new ClienteRepository();
+    this.repository = new PessoaRepository();
     this.strategies = [
       new ValidaSenhaForte(),
       new ValidarDadosObrigatoriosCliente(),
     ];
   }
-  public async delete(cliente: ClienteEntity): Promise<Result> {
+  public async delete(cliente: PessoaEntity): Promise<Result> {
     const valida = new ValidaExistencia();
     const result = await valida.processar(cliente);
     if (result.error) {
@@ -23,7 +23,7 @@ export class ClienteService extends AbsServiceCrud {
     }
     return this.repository.delete(cliente);
   }
-  public async update(cliente: ClienteEntity): Promise<Result> {
+  public async update(cliente: PessoaEntity): Promise<Result> {
     const valida = new ValidaExistencia();
     const result = await valida.processar(cliente);
     if (result.error) {
