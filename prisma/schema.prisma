@@ -10,110 +10,164 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pessoa {
-  pes_id             Int        @id @default(autoincrement())
-  pes_nome           String     @db.VarChar(100)
-  pes_sobrenome      String     @db.VarChar(100)
-  pes_dataNascimento DateTime   @default(now()) @db.Date
-  pes_genero         String     @db.VarChar(20)
-  pes_cpf            String     @unique
+model Pessoas {
+  pes_id             Int           @id @default(autoincrement())
+  pes_nome           String        @db.VarChar(100)
+  pes_sobrenome      String        @db.VarChar(100)
+  pes_dataNascimento DateTime      @default(now()) @db.Date
+  pes_genero         String        @db.VarChar(20)
+  pes_cpf            String        @unique
+  pes_tipo           TiposTelefone
+  pes_ddd            Int
+  pes_numero         Int
   pes_isActive       Boolean
-  pes_createdAt      DateTime   @default(now())
-  pes_updateAt       DateTime   @updatedAt
-  pes_tipo           TipoPessoa
-  usuario            Usuario @relation(fields: [usuario_id], references: [user_id])
-  usuario_id         Int @unique
-  ranking            Float?
-  cartao             Cartao[]
-  endereco           Endereco[]
-  telefone           Telefone[]
+  pes_createdAt      DateTime      @default(now())
+  pes_updateAt       DateTime      @updatedAt
+  usuario            Usuarios      @relation(fields: [usuario_id], references: [user_id])
+  usuario_id         Int           @unique
+  endereco           Enderecos[]
+  Clientes           Clientes[]
 }
 
-enum TipoPessoa {
-  CLIENTE
-  ADMINISTRADOR
+model Clientes {
+  pes_id  Int       @id
+  pessoa  Pessoas   @relation(fields: [pes_id], references: [pes_id])
+  ranking Float?
+  cartao  Cartoes[]
+  pedidos Pedidos[]
 }
 
-model Usuario {
-  user_id    Int     @id @default(autoincrement())
-  user_email String  @unique @db.VarChar(100)
-  user_senha String  @db.VarChar(255)
+model Usuarios {
+  user_id    Int      @id @default(autoincrement())
+  user_email String   @unique @db.VarChar(100)
+  user_senha String   @db.VarChar(255)
   user_admin Boolean
-  pessoa    Pessoa? 
+  pessoa     Pessoas?
 }
 
-model Cartao {
-  crt_id            Int            @id @default(autoincrement())
-  crt_bandeira      BandeiraCartao
+model Cartoes {
+  crt_id            Int             @id @default(autoincrement())
+  crt_bandeira      BandeirasCartao
   crt_numero_cartao Float
-  crt_nome_impresso String         @db.VarChar(100)
+  crt_nome_impresso String          @db.VarChar(100)
   crt_cod_seguranca Int
-  pessoa            Pessoa?        @relation(fields: [pessoa_id], references: [pes_id])
-  pessoa_id         Int?
+  cliente           Clientes?       @relation(fields: [cliente_id], references: [pes_id])
+  cliente_id        Int?
 }
 
-enum BandeiraCartao {
+enum BandeirasCartao {
   VISA
   MASTERCARD
   ELO
 }
 
-model Telefone {
-  tel_id     Int          @id @default(autoincrement())
-  tel_tipo   TipoTelefone
-  tel_ddd    Int
-  tel_numero Int
-  pessoa     Pessoa?      @relation(fields: [pessoa_id], references: [pes_id])
-  pessoa_id  Int?
-}
-
-enum TipoTelefone {
+enum TiposTelefone {
   CELULAR
   FIXO
 }
 
-model Endereco {
-  end_id              Int            @id @default(autoincrement())
-  end_tipo_imovel     TipoImovel
-  end_tipo_endereco   TipoEndereco
-  end_tipo_logradouro TipoLogradouro
+model Enderecos {
+  end_id              Int             @id @default(autoincrement())
+  end_tipo_imovel     TiposImovel
+  end_tipo_endereco   TiposEndereco
+  end_tipo_logradouro TiposLogradouro
   end_logradouro      String
   end_numero          String
   end_bairro          String
   end_cep             Int
-  pessoa              Pessoa         @relation(fields: [pessoa_id], references: [pes_id])
+  pessoa              Pessoas         @relation(fields: [pessoa_id], references: [pes_id])
   pessoa_id           Int
-  cidade              Cidade         @relation(fields: [cidade_id], references: [cid_id])
+  cidade              Cidades         @relation(fields: [cidade_id], references: [cid_id])
   cidade_id           Int
 }
 
-enum TipoImovel {
+enum TiposImovel {
   COMERCIAL
   RESIDENCIAL
 }
 
-enum TipoEndereco {
+enum TiposEndereco {
   COBRANCA
   ENTREGA
 }
 
-enum TipoLogradouro {
+enum TiposLogradouro {
   RUA
   AVENIDA
   PRACA
   ESTRADA
 }
 
-model Cidade {
-  cid_id    Int        @id @default(autoincrement())
+model Cidades {
+  cid_id    Int         @id @default(autoincrement())
   cid_nome  String
-  endereco  Endereco[]
-  estado    Estado     @relation(fields: [estado_id], references: [est_id])
+  endereco  Enderecos[]
+  estado    Estados     @relation(fields: [estado_id], references: [est_id])
   estado_id Int
 }
 
-model Estado {
-  est_id   Int      @id @default(autoincrement())
+model Estados {
+  est_id   Int       @id @default(autoincrement())
   est_nome String
-  cidade   Cidade[]
+  cidade   Cidades[]
+}
+
+model Categorias {
+  cat_id   Int        @id @default(autoincrement())
+  cat_nome String
+  produtos Produtos[]
+}
+
+model Produtos {
+  prod_id         Int               @id @default(autoincrement())
+  prod_nome       String
+  prod_descricao  String
+  prod_url_foto1  String
+  prod_url_foto2  String
+  prod_url_foto3  String
+  prod_quantidade Int
+  prod_preco      Float
+  prod_status     Boolean
+  prod_createdAt  DateTime          @default(now())
+  prod_updateAt   DateTime          @updatedAt
+  categoria_id    Int
+  categorias      Categorias        @relation(fields: [categoria_id], references: [cat_id])
+  pedidos         ProdutosPedidos[]
+  Calcados        Calcados[]
+}
+
+model Calcados {
+  prod_id Int      @id
+  produto Produtos @relation(fields: [prod_id], references: [prod_id])
+  numero  Int
+}
+
+model Pedidos {
+  ped_id          Int               @id @default(autoincrement())
+  cliente_id      Int
+  cliente         Clientes          @relation(fields: [cliente_id], references: [pes_id])
+  produtos        ProdutosPedidos[]
+  ped_valor_total Float
+  ped_valor_frete Float
+  ped_desconto    Float
+  ped_status      StatusPedidos
+  ped_createdAt   DateTime          @default(now())
+  ped_updateAt    DateTime          @updatedAt
+}
+
+model ProdutosPedidos {
+  produto    Produtos @relation(fields: [produto_id], references: [prod_id])
+  produto_id Int
+  pedido     Pedidos  @relation(fields: [pedido_id], references: [ped_id])
+  pedido_id  Int
+
+  @@id([produto_id, pedido_id])
+}
+
+enum StatusPedidos {
+  REALIZADO
+  CANCELADO
+  PAGO
+  ENVIADO
+  ENTREGUE
 }
