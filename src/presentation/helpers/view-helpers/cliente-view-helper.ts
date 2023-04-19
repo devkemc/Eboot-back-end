@@ -1,14 +1,18 @@
-import { Pessoa, TipoPessoa } from "@prisma/client";
-import { Request } from "express";
-import { CidadeEntity } from "../../../domain/entities/cidade-entity";
-import { PessoaEntity } from "../../../domain/entities/pessoa-entity";
-import { TelefoneEntity } from "../../../domain/entities/telefone-entity";
-import { Entity } from "../../../domain/interfaces/i-entity";
-import { AbstractViewHelper } from "./abstract-view-helper";
-import { EstadoEntity } from "../../../domain/entities/estado-entity";
-import { EnderecoEntity } from "../../../domain/entities/endereco-Entity";
-import { ClienteEntity } from "../../../domain/entities/cliente-entity";
+import {Pessoas} from "@prisma/client";
+import {Request} from "express";
+import {CidadeEntity} from "../../../domain/entities/cidade-entity";
+import {TelefoneEntity} from "../../../domain/entities/telefone-entity";
+import {Entity} from "../../../domain/interfaces/i-entity";
+import {AbstractViewHelper} from "./abstract-view-helper";
+import {EstadoEntity} from "../../../domain/entities/estado-entity";
+import {EnderecoEntity} from "../../../domain/entities/endereco-Entity";
+import {ClienteEntity} from "../../../domain/entities/cliente-entity";
 
+interface ClientesPessoas extends Pessoas {
+  cliente: {
+    ranking: number
+  }
+}
 export class ClienteViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {
@@ -35,8 +39,8 @@ export class ClienteViewHelper extends AbstractViewHelper {
       nomeCidade,
       nomeEstado,
     } = req.body;
-    const estado = new EstadoEntity({ nomeEstado });
-    const cidade = new CidadeEntity({ nomeCidade, estado });
+    const estado = new EstadoEntity({nomeEstado});
+    const cidade = new CidadeEntity({nomeCidade, estado});
     const endereco = new EnderecoEntity({
       tipoImovel,
       tipoEndereco,
@@ -54,7 +58,6 @@ export class ClienteViewHelper extends AbstractViewHelper {
     });
     super(
       new ClienteEntity({
-        tipoPessoa : TipoPessoa.CLIENTE,
         id: req.params.id ? Number(req.params.id) : id,
         nome,
         sobrenome,
@@ -73,33 +76,30 @@ export class ClienteViewHelper extends AbstractViewHelper {
     );
   }
 
+
   public setView(entity: Entity[] | Entity) {
-    const clientes = entity as Pessoa[];
-    const clientesResponse = [];
+    const clientes = entity as ClientesPessoas[];
     if (!Array.isArray(clientes)) {
-      const cliente = entity as Pessoa;
+      const cliente = entity as ClientesPessoas;
       return {
         id: cliente.pes_id,
         nome: cliente.pes_nome,
         sobrenome: cliente.pes_sobrenome,
         cpf: cliente.pes_cpf,
         genero: cliente.pes_genero,
+        ranking: cliente.cliente.ranking,
         dataNascimento: cliente.pes_dataNascimento,
       };
     }
 
-    for (const cli of clientes) {
-      clientesResponse.push({
-        id: cli.pes_id,
-        nome: cli.pes_nome,
-        sobrenome: cli.pes_sobrenome,
-        cpf: cli.pes_cpf,
-        genero: cli.pes_genero,
-        ranking: cli.ranking,
-        isActive: cli.pes_isActive,
-      });
-    }
-
-    return clientesResponse;
+    return clientes.map((cli) => ({
+      id: cli.pes_id,
+      nome: cli.pes_nome,
+      sobrenome: cli.pes_sobrenome,
+      cpf: cli.pes_cpf,
+      genero: cli.pes_genero,
+      ranking: cli.cliente.ranking,
+      isActive: cli.pes_isActive,
+    }))
   }
 }

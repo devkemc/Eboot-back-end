@@ -17,7 +17,7 @@ model Pessoas {
   pes_dataNascimento DateTime      @default(now()) @db.Date
   pes_genero         String        @db.VarChar(20)
   pes_cpf            String        @unique
-  pes_tipo           TiposTelefone
+  pes_tipo_fone      TiposTelefone
   pes_ddd            Int
   pes_numero         Int
   pes_isActive       Boolean
@@ -26,13 +26,13 @@ model Pessoas {
   usuario            Usuarios      @relation(fields: [usuario_id], references: [user_id])
   usuario_id         Int           @unique
   endereco           Enderecos[]
-  Clientes           Clientes[]
+  cliente            Clientes?
 }
 
 model Clientes {
   pes_id  Int       @id
   pessoa  Pessoas   @relation(fields: [pes_id], references: [pes_id])
-  ranking Float?
+  ranking Int
   cartao  Cartoes[]
   pedidos Pedidos[]
 }

@@ -1,16 +1,16 @@
-import { TipoTelefone } from "@prisma/client";
+import { TiposTelefone } from "@prisma/client";
 import { AbstractEntity } from "./abstract-entity";
 
 type TelefoneConstructor = {
   id?: number;
   dddTelefone: number;
-  tipoTelefone: TipoTelefone;
+  tipoTelefone: TiposTelefone;
   numeroTelefone: number;
 };
 
 
 export class TelefoneEntity extends AbstractEntity {
-  private _tipo: TipoTelefone;
+  private _tipo: TiposTelefone;
   private _ddd: number;
   private _numero: number;
 

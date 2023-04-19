@@ -6,7 +6,7 @@ export class UserRepository extends AbstractRepository {
   }
   public async findUserByEmail(email: string) {
     try {
-      const user = await this.conection.usuario.findUnique({
+      const user = await this.conection.usuarios.findUnique({
         where: {
           user_email: email,
         },

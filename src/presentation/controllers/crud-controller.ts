@@ -5,6 +5,7 @@ import { Entity } from "../../domain/interfaces/i-entity";
 
 export class CrudController {
   public async handle(req: Request, res: Response) {
+    console.log('chegou na controller')
     const viewHelper = FactoryViewHelper.getViewHelper(req);
     const entity = viewHelper!.getView();
     const cmd = FactoryCommandCrud.getCommand(req.method, req.path, entity);

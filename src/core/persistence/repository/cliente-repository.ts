@@ -1,43 +1,23 @@
-import { ClienteEntity } from "../../../domain/entities/cliente-entity";
-import { PessoaEntity } from "../../../domain/entities/pessoa-entity";
-import { Result } from "../../../presentation/helpers/result";
-import { IRepositoryCrud } from "../../interfaces/i-repository-crud";
+import {ClienteEntity} from "../../../domain/entities/cliente-entity";
+import {PessoaEntity} from "../../../domain/entities/pessoa-entity";
+import {Result} from "../../../presentation/helpers/result";
+import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
 
-import { cryptoPassword } from "../../utils/cryptoPassword";
-import { AbstractRepository } from "./abstract-repository";
+import {cryptoPassword} from "../../utils/cryptoPassword";
+import {AbstractRepository} from "./abstract-repository";
+import {HttpUnauthorized} from "../../../presentation/utils/errors/http-unauthorized";
 
 export class PessoaRepository extends AbstractRepository implements IRepositoryCrud {
   constructor() {
     super();
   }
+
   public async create(cliente: ClienteEntity): Promise<Result> {
     const senhaCriptografada = await cryptoPassword(cliente.senha);
     const result = new Result();
     try {
-      const create = await this.conection.pessoa.create({
+      const create = await this.conection.pessoas.create({
         data: {
-          pes_nome: cliente.nome,
-          pes_sobrenome: cliente.sobrenome,
-          pes_dataNascimento: cliente.dataNascimento,
-          pes_cpf: cliente.cpf,
-          pes_genero: cliente.genero,
-          pes_isActive: cliente.isActive,
-          pes_tipo: cliente.tipoPessoa,
-          ranking: cliente.ranking,
-          usuario: {
-            create:{
-              user_email: cliente.email,
-              user_senha: senhaCriptografada,
-              user_admin: false,
-            }
-          },
-          telefone: {
-            create: {
-              tel_tipo: cliente.telefone.tipo,
-              tel_ddd: cliente.telefone.ddd,
-              tel_numero: cliente.telefone.numero,
-            },
-          },
           endereco: {
             create: {
               end_tipo_logradouro: cliente.endereco.tipoLogradouro,
@@ -59,6 +39,27 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
               },
             },
           },
+          pes_tipo_fone: cliente.telefone.tipo,
+          pes_cpf: cliente.cpf,
+          pes_dataNascimento: cliente.dataNascimento,
+          pes_ddd: cliente.telefone.ddd,
+          pes_genero: cliente.genero,
+          pes_isActive: cliente.isActive,
+          pes_nome: cliente.nome,
+          pes_numero: cliente.telefone.numero,
+          pes_sobrenome: cliente.sobrenome,
+          usuario: {
+            create: {
+              user_email: cliente.email,
+              user_senha: senhaCriptografada,
+              user_admin: false,
+            }
+          },
+          cliente: {
+            create: {
+              ranking: cliente.ranking
+            }
+          }
         },
       });
 
@@ -79,15 +80,17 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
   public async getAll(): Promise<Result> {
     const result = new Result();
     try {
-      const pessoas = await this.conection.pessoa.findMany({});
-      result.data = pessoas;
+      result.data = await this.conection.pessoas.findMany({
+        include: {
+          cliente: true
+        }
+      });
       result.status = 200;
       result.message = "clientes recuperados com sucesso";
     } catch {
       result.status = 401;
       result.error = "deu erro";
     } finally {
-      await this.destroy();
     }
     return result;
   }
@@ -95,8 +98,8 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
   public async delete(cliente: PessoaEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.pessoa.update({
-        where: { pes_id: cliente.id },
+      const clientes = await this.conection.pessoas.update({
+        where: {pes_id: cliente.id},
         data: {
           pes_isActive: false,
         },
@@ -112,37 +115,41 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
     }
     return result;
   }
+
   public async getOne(entity: PessoaEntity): Promise<Result> {
+    console.log('chegou aqui')
     const result = new Result();
     try {
-      const cliente = await this.conection.pessoa.findUnique({
+      const cliente = await this.conection.pessoas.findUnique({
         where: {
           pes_id: entity.id,
         },
+        include: {
+          cliente: true
+        }
       });
       cliente && (result.data = cliente);
       result.message = "cliente recuperado com sucesso";
       result.status = 200;
     } catch (e) {
-      result.status = 400;
-      result.error = "erro na consulta do cliente";
-      console.log(e);
+      throw new HttpUnauthorized('deu ruim')
     } finally {
       await this.destroy();
     }
     return result;
   }
+
   public async update(cliente: ClienteEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.pessoa.update({
-        where: { pes_id: cliente.id },
+      const clientes = await this.conection.pessoas.update({
+        where: {pes_id: cliente.id},
         data: {
           pes_nome: cliente.nome,
           pes_sobrenome: cliente.sobrenome,
           pes_dataNascimento: cliente.dataNascimento,
           usuario: {
-            update:{
+            update: {
               user_email: cliente.email,
               user_senha: cliente.senha,
             }
@@ -150,8 +157,15 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
           pes_cpf: cliente.cpf,
           pes_genero: cliente.genero,
           pes_isActive: cliente.isActive,
-          ranking: cliente.ranking,
+          cliente: {
+            update: {
+              ranking: cliente.ranking
+            }
+          }
         },
+        include: {
+          cliente: true
+        }
       });
       result.data = clientes;
       result.message = "Dados atualizados com sucesso";

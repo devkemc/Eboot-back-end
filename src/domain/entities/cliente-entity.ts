@@ -21,7 +21,6 @@ export class ClienteEntity extends PessoaEntity {
     senha,
     id,
     telefone,
-    tipoPessoa,
     dataNascimento,
   }: ClienteConstructor) {
     super({
@@ -35,7 +34,6 @@ export class ClienteEntity extends PessoaEntity {
       senha,
       id,
       telefone,
-      tipoPessoa,
       dataNascimento,
     });
     this._cartao = cartao;

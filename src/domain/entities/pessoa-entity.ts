@@ -1,6 +1,5 @@
-import { TipoPessoa } from "@prisma/client";
+
 import { AbstractEntity } from "./abstract-entity";
-import { CartaoEntity } from "./cartao-entity";
 import { EnderecoEntity } from "./endereco-Entity";
 import { TelefoneEntity } from "./telefone-entity";
 
@@ -13,7 +12,6 @@ export interface PessoaConstructor {
   cpf: string;
   email: string;
   senha: string;
-  tipoPessoa: TipoPessoa;
   isActive: boolean;
   endereco: EnderecoEntity;
   telefone: TelefoneEntity;
@@ -29,7 +27,6 @@ export class PessoaEntity extends AbstractEntity {
   protected _telefone: TelefoneEntity;
   
   private _isActive: boolean;
-  private _tipoPessoa: TipoPessoa;
   
   private _endereco: EnderecoEntity;
 
@@ -44,7 +41,7 @@ export class PessoaEntity extends AbstractEntity {
     senha,
     id,
     telefone,
-    tipoPessoa,
+
     dataNascimento,
   }: PessoaConstructor) {
     super(id);
@@ -54,7 +51,6 @@ export class PessoaEntity extends AbstractEntity {
     this._endereco = endereco;
     this._genero = genero;
     this._nome = nome;
-    this._tipoPessoa = tipoPessoa;
     this._sobrenome = sobrenome;
     this._isActive = isActive ? isActive : true;
     this._senha = senha;
@@ -103,7 +99,4 @@ export class PessoaEntity extends AbstractEntity {
     return this._id;
   }
 
-  public get tipoPessoa(){
-    return this._tipoPessoa;
-  }
 }
