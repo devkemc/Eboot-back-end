@@ -1,16 +1,19 @@
-import { Request } from "express";
-import { clientes } from "../../routes/endpoint";
-import { ClienteViewHelper } from "./cliente-view-helper";
-import { ProductsViewHelper } from "./product-view-helper";
+import {Request} from "express";
+import {clientes, produtos} from "../../routes/endpoint";
+import {ClienteViewHelper} from "./cliente-view-helper";
+import {ProductsViewHelper} from "./product-view-helper";
 
 export class FactoryViewHelper {
   public static getViewHelper(req: Request) {
     const path = `/${req.path.split("/").slice(1, 2).join()}`;
     switch (path) {
-      case "/products":
+      case `${produtos}`:
         return new ProductsViewHelper(req);
       case `${clientes}`:
         return new ClienteViewHelper(req);
+      default:
+        return new ClienteViewHelper(req);
+
     }
   }
 }

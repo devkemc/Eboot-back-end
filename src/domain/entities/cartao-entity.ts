@@ -13,18 +13,12 @@ export class CartaoEntity extends AbstractEntity {
   private _codSeguranca: number;
   private _bandeiraCartao: string;
 
-  constructor({
-    id,
-    numeroCartao,
-    nomeImpressoCartao,
-    codSegurancaCartao,
-    bandeiraCartao,
-  }: CartaoConstructor) {
-    super(id);
-    this._nomeImpresso = nomeImpressoCartao;
-    this._bandeiraCartao = bandeiraCartao;
-    this._codSeguranca = codSegurancaCartao;
-    this._numero = numeroCartao;
+  constructor(cartao: CartaoConstructor) {
+    super(cartao.id);
+    this._nomeImpresso = cartao.nomeImpressoCartao;
+    this._bandeiraCartao = cartao.bandeiraCartao;
+    this._codSeguranca = cartao.codSegurancaCartao;
+    this._numero = cartao.numeroCartao;
   }
 
   public get numero() {

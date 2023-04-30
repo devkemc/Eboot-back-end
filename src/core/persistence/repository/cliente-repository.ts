@@ -4,19 +4,18 @@ import {Result} from "../../../presentation/helpers/result";
 import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
 
 import {cryptoPassword} from "../../utils/cryptoPassword";
-import {AbstractRepository} from "./abstract-repository";
+import {Conection} from "./conection";
 import {HttpUnauthorized} from "../../../presentation/utils/errors/http-unauthorized";
 
-export class PessoaRepository extends AbstractRepository implements IRepositoryCrud {
+export class PessoaRepository implements IRepositoryCrud {
   constructor() {
-    super();
   }
 
   public async create(cliente: ClienteEntity): Promise<Result> {
     const senhaCriptografada = await cryptoPassword(cliente.senha);
     const result = new Result();
     try {
-      const create = await this.conection.pessoas.create({
+      const create = await Conection.getConection().pessoas.create({
         data: {
           endereco: {
             create: {
@@ -61,8 +60,11 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
             }
           }
         },
+        include: {
+          cliente: true,
+          usuario: true
+        }
       });
-
       result.status = 201;
       result.message = "cliente criado com sucesso";
       result.data = create;
@@ -71,7 +73,6 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
       result.error = "deu erro na criação";
       console.log(err);
     } finally {
-      await this.destroy();
     }
 
     return result;
@@ -80,7 +81,7 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
   public async getAll(): Promise<Result> {
     const result = new Result();
     try {
-      result.data = await this.conection.pessoas.findMany({
+      result.data = await Conection.getConection().pessoas.findMany({
         include: {
           cliente: true
         }
@@ -98,7 +99,7 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
   public async delete(cliente: PessoaEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.pessoas.update({
+      const clientes = await Conection.getConection().pessoas.update({
         where: {pes_id: cliente.id},
         data: {
           pes_isActive: false,
@@ -111,21 +112,20 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
       result.status = 400;
       result.error = "erro na exclusão";
     } finally {
-      await this.destroy();
     }
     return result;
   }
 
   public async getOne(entity: PessoaEntity): Promise<Result> {
-    console.log('chegou aqui')
     const result = new Result();
     try {
-      const cliente = await this.conection.pessoas.findUnique({
+      const cliente = await Conection.getConection().pessoas.findUnique({
         where: {
           pes_id: entity.id,
         },
         include: {
-          cliente: true
+          cliente: true,
+          usuario:true
         }
       });
       cliente && (result.data = cliente);
@@ -134,7 +134,7 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
     } catch (e) {
       throw new HttpUnauthorized('deu ruim')
     } finally {
-      await this.destroy();
+
     }
     return result;
   }
@@ -142,7 +142,7 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
   public async update(cliente: ClienteEntity): Promise<Result> {
     const result = new Result();
     try {
-      const clientes = await this.conection.pessoas.update({
+      const clientes = await Conection.getConection().pessoas.update({
         where: {pes_id: cliente.id},
         data: {
           pes_nome: cliente.nome,
@@ -164,9 +164,11 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
           }
         },
         include: {
-          cliente: true
+          cliente: true,
+          usuario:true
         }
       });
+      console.log('retorno update',clientes)
       result.data = clientes;
       result.message = "Dados atualizados com sucesso";
       result.status = 200;
@@ -176,7 +178,6 @@ export class PessoaRepository extends AbstractRepository implements IRepositoryC
       result.status = 400;
       result.error = "erro na atualização do cliente";
     } finally {
-      await this.destroy();
     }
     return result;
   }

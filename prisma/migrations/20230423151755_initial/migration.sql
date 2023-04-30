@@ -24,13 +24,13 @@ CREATE TABLE "Pessoas" (
     "pes_dataNascimento" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "pes_genero" VARCHAR(20) NOT NULL,
     "pes_cpf" TEXT NOT NULL,
-    "pes_tipo" "TiposTelefone" NOT NULL,
+    "pes_tipo_fone" "TiposTelefone" NOT NULL,
     "pes_ddd" INTEGER NOT NULL,
     "pes_numero" INTEGER NOT NULL,
     "pes_isActive" BOOLEAN NOT NULL,
     "pes_createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "pes_updateAt" TIMESTAMP(3) NOT NULL,
-    "usuario_id" INTEGER NOT NULL,
+    "usuariosUser_id" INTEGER NOT NULL,
 
     CONSTRAINT "Pessoas_pkey" PRIMARY KEY ("pes_id")
 );
@@ -38,14 +38,14 @@ CREATE TABLE "Pessoas" (
 -- CreateTable
 CREATE TABLE "Clientes" (
     "pes_id" INTEGER NOT NULL,
-    "ranking" DOUBLE PRECISION,
+    "ranking" INTEGER NOT NULL,
 
     CONSTRAINT "Clientes_pkey" PRIMARY KEY ("pes_id")
 );
 
 -- CreateTable
 CREATE TABLE "Usuarios" (
-    "user_id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "user_email" VARCHAR(100) NOT NULL,
     "user_senha" VARCHAR(255) NOT NULL,
     "user_admin" BOOLEAN NOT NULL,
@@ -158,16 +158,13 @@ CREATE TABLE "ProdutosPedidos" (
 CREATE UNIQUE INDEX "Pessoas_pes_cpf_key" ON "Pessoas"("pes_cpf");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Pessoas_usuario_id_key" ON "Pessoas"("usuario_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Usuarios_user_email_key" ON "Usuarios"("user_email");
 
 -- AddForeignKey
-ALTER TABLE "Pessoas" ADD CONSTRAINT "Pessoas_usuario_id_fkey" FOREIGN KEY ("usuario_id") REFERENCES "Usuarios"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Clientes" ADD CONSTRAINT "Clientes_pes_id_fkey" FOREIGN KEY ("pes_id") REFERENCES "Pessoas"("pes_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Clientes" ADD CONSTRAINT "Clientes_pes_id_fkey" FOREIGN KEY ("pes_id") REFERENCES "Pessoas"("pes_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Usuarios" ADD CONSTRAINT "Usuarios_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Pessoas"("pes_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cartoes" ADD CONSTRAINT "Cartoes_cliente_id_fkey" FOREIGN KEY ("cliente_id") REFERENCES "Clientes"("pes_id") ON DELETE SET NULL ON UPDATE CASCADE;

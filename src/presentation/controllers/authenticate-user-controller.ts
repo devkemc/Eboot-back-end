@@ -6,9 +6,7 @@ export class AuthenticateUserController {
   async handle(req: Request, res: Response) {
     const { email, senha } = req.body;
     const service = new AuthenticateUserService();
-    const data = await service.authenticateUser({ email, senha });
-    console.log('data',data);
-    
-    return res.json(data);
+    const result = await service.authenticateUser({ email, senha });
+    return res.status(result.status).json(result.getResult());
   }
 }

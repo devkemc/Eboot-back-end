@@ -30,31 +30,18 @@ export class PessoaEntity extends AbstractEntity {
   
   private _endereco: EnderecoEntity;
 
-  constructor({
-    cpf,
-    email,
-    nome,
-    sobrenome,
-    endereco,
-    genero,
-    isActive,
-    senha,
-    id,
-    telefone,
-
-    dataNascimento,
-  }: PessoaConstructor) {
-    super(id);
-    this._cpf = cpf;
-    this._email = email;
-    this._dataNascimento = dataNascimento;
-    this._endereco = endereco;
-    this._genero = genero;
-    this._nome = nome;
-    this._sobrenome = sobrenome;
-    this._isActive = isActive ? isActive : true;
-    this._senha = senha;
-    this._telefone = telefone;
+  constructor(pessoa: PessoaConstructor) {
+    super(pessoa.id);
+    this._cpf = pessoa.cpf;
+    this._email = pessoa.email;
+    this._dataNascimento = pessoa.dataNascimento;
+    this._endereco = pessoa.endereco;
+    this._genero = pessoa.genero;
+    this._nome = pessoa.nome;
+    this._sobrenome = pessoa.sobrenome;
+    this._isActive = pessoa.isActive ? pessoa.isActive : true;
+    this._senha = pessoa.senha;
+    this._telefone = pessoa.telefone;
   }
 
   public get nome() {

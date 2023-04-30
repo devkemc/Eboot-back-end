@@ -13,7 +13,6 @@ export function ensureAuthenticated(
     response: Response,
     next: NextFunction
 ) {
-    console.log('esta aqui')
     const authToken = request.headers.authorization;
     if (!authToken) throw new HttpUnauthorized('Realize login para acessar esse endpoint')
     const [, token] = authToken!.split(" ");

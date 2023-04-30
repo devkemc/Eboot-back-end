@@ -7,9 +7,9 @@ type EstadoConstructor = {
 export class EstadoEntity extends AbstractEntity {
   private _nome: string;
 
-  constructor({ id, nomeEstado }: EstadoConstructor) {
-    super(id);
-    this._nome = nomeEstado;
+  constructor(estado: EstadoConstructor) {
+    super(estado.id);
+    this._nome = estado.nomeEstado;
   }
 
   public get nome() {

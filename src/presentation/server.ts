@@ -18,8 +18,7 @@ app.use(
         if (err instanceof BaseError) {
             return response.status(err.statusCode).json({
                 status: err.statusCode,
-                error: err.message,
-                data: err.data
+                message: err.message,
             });
         }
 

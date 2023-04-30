@@ -12,6 +12,9 @@ interface ClientesPessoas extends Pessoas {
   cliente: {
     ranking: number
   }
+  usuario: {
+    user_email:string
+  }
 }
 export class ClienteViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
@@ -66,7 +69,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
           : dataNascimento,
         email,
         senha,
-        ranking,
+        ranking: 0,
         isActive,
         cpf,
         genero,
@@ -85,9 +88,9 @@ export class ClienteViewHelper extends AbstractViewHelper {
         id: cliente.pes_id,
         nome: cliente.pes_nome,
         sobrenome: cliente.pes_sobrenome,
+        email: cliente.usuario.user_email,
         cpf: cliente.pes_cpf,
         genero: cliente.pes_genero,
-        ranking: cliente.cliente.ranking,
         dataNascimento: cliente.pes_dataNascimento,
       };
     }

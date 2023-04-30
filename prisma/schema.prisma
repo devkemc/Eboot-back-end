@@ -23,8 +23,7 @@ model Pessoas {
   pes_isActive       Boolean
   pes_createdAt      DateTime      @default(now())
   pes_updateAt       DateTime      @updatedAt
-  usuario            Usuarios      @relation(fields: [usuario_id], references: [user_id])
-  usuario_id         Int           @unique
+  usuario            Usuarios?
   endereco           Enderecos[]
   cliente            Clientes?
 }
@@ -38,11 +37,11 @@ model Clientes {
 }
 
 model Usuarios {
-  user_id    Int      @id @default(autoincrement())
-  user_email String   @unique @db.VarChar(100)
-  user_senha String   @db.VarChar(255)
+  user_id    Int     @id
+  pessoa     Pessoas @relation(fields: [user_id], references: [pes_id])
+  user_email String  @unique @db.VarChar(100)
+  user_senha String  @db.VarChar(255)
   user_admin Boolean
-  pessoa     Pessoas?
 }
 
 model Cartoes {
@@ -119,27 +118,37 @@ model Categorias {
 }
 
 model Produtos {
-  prod_id         Int               @id @default(autoincrement())
-  prod_nome       String
-  prod_descricao  String
-  prod_url_foto1  String
-  prod_url_foto2  String
-  prod_url_foto3  String
-  prod_quantidade Int
-  prod_preco      Float
-  prod_status     Boolean
-  prod_createdAt  DateTime          @default(now())
-  prod_updateAt   DateTime          @updatedAt
-  categoria_id    Int
-  categorias      Categorias        @relation(fields: [categoria_id], references: [cat_id])
-  pedidos         ProdutosPedidos[]
-  Calcados        Calcados[]
+  prod_id               Int                @id @default(autoincrement())
+  prod_nome             String
+  prod_descricao        String
+  prod_url_foto1        String
+  prod_url_foto2        String
+  prod_url_foto3        String
+  prod_quantidade_total Int
+  prod_preco            Float
+  prod_status           Boolean
+  prod_createdAt        DateTime           @default(now())
+  prod_updateAt         DateTime           @updatedAt
+  categoria_id          Int
+  categorias            Categorias         @relation(fields: [categoria_id], references: [cat_id])
+  pedidos               ProdutosPedidos[]
+  tamanhos              ProdutosTamanhos[]
 }
 
-model Calcados {
-  prod_id Int      @id
-  produto Produtos @relation(fields: [prod_id], references: [prod_id])
-  numero  Int
+model Tamanhos {
+  tam_id      Int                @id @default(autoincrement())
+  tam_tamanho Int
+  produto     ProdutosTamanhos[]
+}
+
+model ProdutosTamanhos {
+  quantidade Int
+  produto    Produtos @relation(fields: [produto_id], references: [prod_id])
+  produto_id Int
+  tamanho    Tamanhos @relation(fields: [tamanho_id], references: [tam_id])
+  tamanho_id Int
+
+  @@id([produto_id, tamanho_id])
 }
 
 model Pedidos {

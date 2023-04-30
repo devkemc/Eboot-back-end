@@ -8,36 +8,10 @@ interface ClienteConstructor extends PessoaConstructor {
 export class ClienteEntity extends PessoaEntity {
   private _ranking: number;
   private _cartao?: CartaoEntity;
-  constructor({
-    ranking = 0,
-    cartao,
-    cpf,
-    email,
-    nome,
-    sobrenome,
-    endereco,
-    genero,
-    isActive,
-    senha,
-    id,
-    telefone,
-    dataNascimento,
-  }: ClienteConstructor) {
-    super({
-      cpf,
-      email,
-      nome,
-      sobrenome,
-      endereco,
-      genero,
-      isActive,
-      senha,
-      id,
-      telefone,
-      dataNascimento,
-    });
-    this._cartao = cartao;
-    this._ranking = ranking;
+  constructor(cliente: ClienteConstructor) {
+    super(cliente);
+    this._cartao = cliente.cartao;
+    this._ranking = cliente.ranking;
   }
   public get ranking() {
     return this._ranking;

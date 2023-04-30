@@ -10,10 +10,10 @@ export class CidadeEntity extends AbstractEntity {
   private _nome: string;
   private _estado: EstadoEntity;
 
-  constructor({ id, nomeCidade, estado }: CidadeConstructor) {
-    super(id);
-    this._nome = nomeCidade;
-    this._estado = estado;
+  constructor(cidade: CidadeConstructor) {
+    super(cidade.id);
+    this._nome = cidade.nomeCidade;
+    this._estado = cidade.estado;
   }
 
   public get nome() {

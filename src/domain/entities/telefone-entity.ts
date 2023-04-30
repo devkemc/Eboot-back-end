@@ -14,16 +14,11 @@ export class TelefoneEntity extends AbstractEntity {
   private _ddd: number;
   private _numero: number;
 
-  constructor({
-    dddTelefone: ddd,
-    tipoTelefone,
-    id,
-    numeroTelefone,
-  }: TelefoneConstructor) {
-    super(id);
-    this._ddd = ddd;
-    this._tipo = tipoTelefone;
-    this._numero = numeroTelefone;
+  constructor(telefone: TelefoneConstructor) {
+    super(telefone.id);
+    this._ddd = telefone.dddTelefone;
+    this._tipo = telefone.tipoTelefone;
+    this._numero = telefone.numeroTelefone;
   }
 
   public get ddd() {

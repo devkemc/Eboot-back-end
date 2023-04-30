@@ -1,12 +1,11 @@
-import { AbstractRepository } from "./abstract-repository";
+import { Conection } from "./conection";
 
-export class UserRepository extends AbstractRepository {
+export class UserRepository {
   constructor() {
-    super();
   }
   public async findUserByEmail(email: string) {
     try {
-      const user = await this.conection.usuarios.findUnique({
+      const user = await Conection.getConection().usuarios.findUnique({
         where: {
           user_email: email,
         },
@@ -15,7 +14,6 @@ export class UserRepository extends AbstractRepository {
     } catch {
       return null;
     } finally {
-      await this.destroy();
     }
   }
 }

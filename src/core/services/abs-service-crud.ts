@@ -1,6 +1,6 @@
 import { empty } from "@prisma/client/runtime";
 import { Entity } from "../../domain/interfaces/i-entity";
-import { AbstractRepository } from "../persistence/repository/abstract-repository";
+import { Conection } from "../persistence/repository/conection";
 import { IStrategy } from "../interfaces/i-strategy";
 import { IRepositoryCrud } from "../interfaces/i-repository-crud";
 

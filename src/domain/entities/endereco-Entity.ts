@@ -23,26 +23,16 @@ export class EnderecoEntity extends AbstractEntity {
   private _cep: number;
   private _cidade: CidadeEntity;
 
-  constructor({
-    id,
-    tipoImovel,
-    tipoEndereco,
-    logradouro,
-    tipoLogradouro,
-    bairro,
-    numeroEndereco,
-    cep,
-    cidade,
-  }: EnderecoConstructor) {
-    super(id);
-    this._tipoImovel = tipoImovel;
-    this._tipoEndereco = tipoEndereco;
-    this._tipoLogradouro = tipoLogradouro;
-    this._logradouro = logradouro;
-    this._numero = numeroEndereco;
-    this._bairro = bairro;
-    this._cep = cep;
-    this._cidade = cidade;
+  constructor(endereco: EnderecoConstructor) {
+    super(endereco.id);
+    this._tipoImovel = endereco.tipoImovel;
+    this._tipoEndereco = endereco.tipoEndereco;
+    this._tipoLogradouro = endereco.tipoLogradouro;
+    this._logradouro = endereco.logradouro;
+    this._numero = endereco.numeroEndereco;
+    this._bairro = endereco.bairro;
+    this._cep = endereco.cep;
+    this._cidade = endereco.cidade;
   }
 
   public get tipoImovel() {
