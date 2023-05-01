@@ -10,7 +10,7 @@ export class FactoryService {
       case produtos:
         return new ProdutoService()
       default:
-        return new ClienteService()
+        return new ProdutoService()
     }
   }
 }

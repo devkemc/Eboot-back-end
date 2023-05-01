@@ -71,7 +71,6 @@ export class PessoaRepository implements IRepositoryCrud {
     } catch (err) {
       result.status = 400;
       result.error = "deu erro na criação";
-      console.log(err);
     } finally {
     }
 
@@ -125,7 +124,7 @@ export class PessoaRepository implements IRepositoryCrud {
         },
         include: {
           cliente: true,
-          usuario:true
+          usuario: true
         }
       });
       cliente && (result.data = cliente);
@@ -165,16 +164,13 @@ export class PessoaRepository implements IRepositoryCrud {
         },
         include: {
           cliente: true,
-          usuario:true
+          usuario: true
         }
       });
-      console.log('retorno update',clientes)
       result.data = clientes;
       result.message = "Dados atualizados com sucesso";
       result.status = 200;
     } catch (e) {
-      console.log(e);
-
       result.status = 400;
       result.error = "erro na atualização do cliente";
     } finally {

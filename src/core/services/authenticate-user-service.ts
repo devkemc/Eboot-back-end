@@ -20,9 +20,7 @@ export class AuthenticateUserService {
   }
 
   async authenticateUser({email, senha}: IAuthenticateRequest) {
-    console.log('esta na service');
     const user: Usuarios | null = await this.repository.findUserByEmail(email);
-    console.log('user', user);
 
     if (!user) throw new HttpUnauthorized("Email ou senha incorretos!");
     const validatePassword = await compare(senha, user?.user_senha);

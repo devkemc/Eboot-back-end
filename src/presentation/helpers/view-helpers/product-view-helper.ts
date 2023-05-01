@@ -11,18 +11,19 @@ interface ProductWithCategory extends Produtos {
   categorias: {
     cat_id: number,
     cat_nome: string
-  }
+  },
+  tamanhos:[]
 }
 
 export class ProductsViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal} = req.body
-    super(new ProdutoEntity({id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal}))
+    super(new ProdutoEntity({id:req.params.id ? Number(req.params.id) : id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal}))
   }
 
   public setView(entity: Entity): Entity {
     if (!Array.isArray(entity)) {
-      const produto = entity as Produtos
+      const produto = entity as ProductWithCategory
       return {
         id: produto.prod_id,
         nome: produto.prod_nome,
@@ -30,7 +31,8 @@ export class ProductsViewHelper extends AbstractViewHelper {
         url_ft1: produto.prod_url_foto1,
         url_ft2: produto.prod_url_foto2,
         url_ft3: produto.prod_url_foto3,
-        preco: produto.prod_preco
+        preco: produto.prod_preco,
+        tamanhos:produto.tamanhos
       }
     }
     return (entity as ProductWithCategory[]).map((produto) => ({

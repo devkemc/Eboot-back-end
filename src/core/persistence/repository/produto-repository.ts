@@ -39,13 +39,16 @@ export class ProdutoRepository  implements IRepositoryCrud{
         },
         include:{
           categorias:true,
-          tamanhos: true
+          tamanhos:{
+            select:{
+              tamanho:true
+            }
+          }
         }
       })
-      console.log(product)
       product && (result.data = product)
       result.status = 200
-      result.message = "produtos recuperados com sucesso"
+      result.message = "produto recuperado com sucesso"
     }catch {
       result.status = 400;
       result.error = 'deu ruim'
