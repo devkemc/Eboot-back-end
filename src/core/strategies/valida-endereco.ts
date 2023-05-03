@@ -1,4 +1,4 @@
-import { EnderecoEntity } from "../../domain/entities/endereco-Entity";
+import { EnderecoEntity } from "../../domain/entities/pessoa/endereco-Entity";
 import { Entity } from "../../domain/interfaces/i-entity";
 import { Result } from "../../presentation/helpers/result";
 import { IStrategy } from "../interfaces/i-strategy";

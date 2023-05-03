@@ -1,4 +1,4 @@
-import { TelefoneEntity } from "../../domain/entities/telefone-entity";
+import { TelefoneEntity } from "../../domain/entities/pessoa/telefone-entity";
 import { Result } from "../../presentation/helpers/result";
 import { IStrategy } from "../interfaces/i-strategy";
 

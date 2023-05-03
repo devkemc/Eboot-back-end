@@ -1,19 +1,16 @@
 import {Pessoas} from "@prisma/client";
 import {Request} from "express";
-import {CidadeEntity} from "../../../domain/entities/cidade-entity";
-import {TelefoneEntity} from "../../../domain/entities/telefone-entity";
+import {CidadeEntity} from "../../../domain/entities/pessoa/cidade-entity";
+import {TelefoneEntity} from "../../../domain/entities/pessoa/telefone-entity";
 import {Entity} from "../../../domain/interfaces/i-entity";
 import {AbstractViewHelper} from "./abstract-view-helper";
-import {EstadoEntity} from "../../../domain/entities/estado-entity";
-import {EnderecoEntity} from "../../../domain/entities/endereco-Entity";
-import {ClienteEntity} from "../../../domain/entities/cliente-entity";
+import {EstadoEntity} from "../../../domain/entities/pessoa/estado-entity";
+import {EnderecoEntity} from "../../../domain/entities/pessoa/endereco-Entity";
+import {ClienteEntity} from "../../../domain/entities/pessoa/cliente-entity";
 
 interface ClientesPessoas extends Pessoas {
   cliente: {
     ranking: number
-  }
-  usuario: {
-    user_email:string
   }
 }
 export class ClienteViewHelper extends AbstractViewHelper {
@@ -88,7 +85,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
         id: cliente.pes_id,
         nome: cliente.pes_nome,
         sobrenome: cliente.pes_sobrenome,
-        email: cliente.usuario.user_email,
+        email: cliente.pes_email,
         cpf: cliente.pes_cpf,
         genero: cliente.pes_genero,
         dataNascimento: cliente.pes_dataNascimento,

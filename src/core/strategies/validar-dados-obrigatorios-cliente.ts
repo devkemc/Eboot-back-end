@@ -1,4 +1,4 @@
-import { PessoaEntity } from "../../domain/entities/pessoa-entity";
+import { PessoaEntity } from "../../domain/entities/pessoa/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
 import { IStrategy } from "../interfaces/i-strategy";
 import { ValidaEndereco } from "./valida-endereco";
@@ -13,7 +13,7 @@ export class ValidarDadosObrigatoriosCliente implements IStrategy {
       !!entidade.nome &&
       !!entidade.sobrenome &&
       !!entidade.cpf &&
-      !!entidade.email &&
+      !!entidade.usuario.email &&
       !!entidade.dataNascimento &&
       !!entidade.genero
     ) {

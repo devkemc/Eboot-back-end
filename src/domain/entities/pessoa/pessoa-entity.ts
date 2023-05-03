@@ -1,5 +1,5 @@
 
-import { AbstractEntity } from "./abstract-entity";
+import { AbstractEntity } from "../abstract-entity";
 import { EnderecoEntity } from "./endereco-Entity";
 import { TelefoneEntity } from "./telefone-entity";
 import {UsuarioConstructor, UsuarioEntity} from "./usuario-entity";

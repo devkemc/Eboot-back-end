@@ -1,4 +1,4 @@
-import { AbstractEntity } from "./abstract-entity";
+import { AbstractEntity } from "../abstract-entity";
 import { EstadoEntity } from "./estado-entity";
 
 type CidadeConstructor = {

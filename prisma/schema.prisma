@@ -14,6 +14,9 @@ model Pessoas {
   pes_id             Int           @id @default(autoincrement())
   pes_nome           String        @db.VarChar(100)
   pes_sobrenome      String        @db.VarChar(100)
+  pes_email          String        @unique @db.VarChar(100)
+  pes_senha          String        @db.VarChar(255)
+  pes_admin          Boolean
   pes_dataNascimento DateTime      @default(now()) @db.Date
   pes_genero         String        @db.VarChar(20)
   pes_cpf            String        @unique
@@ -23,35 +26,44 @@ model Pessoas {
   pes_isActive       Boolean
   pes_createdAt      DateTime      @default(now())
   pes_updateAt       DateTime      @updatedAt
-  usuario            Usuarios?
   endereco           Enderecos[]
   cliente            Clientes?
 }
 
 model Clientes {
-  pes_id  Int       @id
-  pessoa  Pessoas   @relation(fields: [pes_id], references: [pes_id])
-  ranking Int
-  cartao  Cartoes[]
-  pedidos Pedidos[]
-}
-
-model Usuarios {
-  user_id    Int     @id
-  pessoa     Pessoas @relation(fields: [user_id], references: [pes_id])
-  user_email String  @unique @db.VarChar(100)
-  user_senha String  @db.VarChar(255)
-  user_admin Boolean
+  pes_id   Int        @id
+  pessoa   Pessoas    @relation(fields: [pes_id], references: [pes_id])
+  ranking  Int
+  cartao   Cartoes[]
+  pedidos  Pedidos[]
+  carrinho Carrinhos?
+  Cupons   Cupons[]
+  Trocas   Trocas[]
 }
 
 model Cartoes {
-  crt_id            Int             @id @default(autoincrement())
-  crt_bandeira      BandeirasCartao
-  crt_numero_cartao Float
-  crt_nome_impresso String          @db.VarChar(100)
-  crt_cod_seguranca Int
-  cliente           Clientes?       @relation(fields: [cliente_id], references: [pes_id])
-  cliente_id        Int?
+  crt_id               Int               @id @default(autoincrement())
+  crt_bandeira         BandeirasCartao
+  crt_numero_cartao    Float
+  crt_nome_impresso    String            @db.VarChar(100)
+  crt_cod_seguranca    Int
+  cliente              Clientes?         @relation(fields: [cliente_id], references: [pes_id])
+  cliente_id           Int?
+  FormaPagamentoEntity FormaPagamento[]
+  PagamentoCartao      PagamentoCartao[]
+}
+
+model Cupons {
+  cup_id               Int              @id @default(autoincrement())
+  cup_valor            Float
+  cup_ativo            Boolean
+  cliente_id           Int
+  cliente              Clientes         @relation(fields: [cliente_id], references: [pes_id])
+  cup_createdAt        DateTime         @default(now())
+  cup_updateAt         DateTime         @updatedAt
+  cup_data_vencimento  DateTime
+  FormaPagamentoEntity FormaPagamento[]
+  PagamentoCupom       PagamentoCupom[]
 }
 
 enum BandeirasCartao {
@@ -131,8 +143,9 @@ model Produtos {
   prod_updateAt         DateTime           @updatedAt
   categoria_id          Int
   categorias            Categorias         @relation(fields: [categoria_id], references: [cat_id])
-  pedidos               ProdutosPedidos[]
   tamanhos              ProdutosTamanhos[]
+  item_pedido           ItensPedido[]
+  item_carrinho         ItensCarrinho[]
 }
 
 model Tamanhos {
@@ -152,25 +165,85 @@ model ProdutosTamanhos {
 }
 
 model Pedidos {
-  ped_id          Int               @id @default(autoincrement())
-  cliente_id      Int
-  cliente         Clientes          @relation(fields: [cliente_id], references: [pes_id])
-  produtos        ProdutosPedidos[]
-  ped_valor_total Float
-  ped_valor_frete Float
-  ped_desconto    Float
-  ped_status      StatusPedidos
-  ped_createdAt   DateTime          @default(now())
-  ped_updateAt    DateTime          @updatedAt
+  ped_id                  Int                       @id @default(autoincrement())
+  cliente_id              Int
+  cliente                 Clientes                  @relation(fields: [cliente_id], references: [pes_id])
+  item_pedido             ItensPedido[]
+  ped_valor_total         Float
+  ped_valor_frete_total   Float
+  ped_desconto            Float
+  ped_status              StatusPedidos
+  ped_createdAt           DateTime                  @default(now())
+  ped_updateAt            DateTime                  @updatedAt
+  Pedidos_Forma_Pagamento Pedidos_Forma_Pagamento[]
 }
 
-model ProdutosPedidos {
-  produto    Produtos @relation(fields: [produto_id], references: [prod_id])
-  produto_id Int
-  pedido     Pedidos  @relation(fields: [pedido_id], references: [ped_id])
-  pedido_id  Int
+model Pedidos_Forma_Pagamento {
+  pfp_valor          Float
+  forma_pagamento_id Int
+  forma_Pagamento    FormaPagamento @relation(fields: [forma_pagamento_id], references: [fpag_id])
+  pedido_id          Int
+  pedido             Pedidos        @relation(fields: [pedido_id], references: [ped_id])
 
-  @@id([produto_id, pedido_id])
+  @@id([forma_pagamento_id, pedido_id])
+}
+
+model FormaPagamento {
+  fpag_id                 Int                       @id @default(autoincrement())
+  cupom                   Cupons?                   @relation(fields: [cuponsCup_id], references: [cup_id])
+  cartao                  Cartoes?                  @relation(fields: [cartoesCrt_id], references: [crt_id])
+  cuponsCup_id            Int?
+  cartoesCrt_id           Int?
+  PagamentoCupom          PagamentoCupom[]
+  PagamentoCartao         PagamentoCartao[]
+  Pedidos_Forma_Pagamento Pedidos_Forma_Pagamento[]
+}
+
+model PagamentoCupom {
+  pcu_id          Int            @id
+  forma_pagamento FormaPagamento @relation(fields: [pcu_id], references: [fpag_id])
+  cupom_id        Int
+  cupom           Cupons         @relation(fields: [cupom_id], references: [cup_id])
+}
+
+model PagamentoCartao {
+  pcu_id          Int            @id
+  forma_pagamento FormaPagamento @relation(fields: [pcu_id], references: [fpag_id])
+  cartao_id       Int
+  cartao          Cartoes        @relation(fields: [cartao_id], references: [crt_id])
+}
+
+model ItensPedido {
+  iped_id          Int              @id @default(autoincrement())
+  iped_valor_frete Float
+  iped_quantidade  Int
+  iped_valor_total Float
+  iped_status      StatusItemPedido
+  iped_tamanho     Int
+  produto          Produtos         @relation(fields: [produto_id], references: [prod_id])
+  produto_id       Int
+  pedido           Pedidos          @relation(fields: [pedido_id], references: [ped_id])
+  pedido_id        Int
+  Trocas           Trocas[]
+}
+
+model ItensCarrinho {
+  icar_id          Int       @id @default(autoincrement())
+  icar_quantidade  Int
+  icar_valor_total Float
+  icar_tamanho     Int
+  produto          Produtos  @relation(fields: [produto_id], references: [prod_id])
+  produto_id       Int
+  carrinho_id      Int
+  carrinho         Carrinhos @relation(fields: [carrinho_id], references: [car_id])
+}
+
+model Carrinhos {
+  car_id           Int             @id @default(autoincrement())
+  icar_valor_total Float           @default(0)
+  item_carrinho    ItensCarrinho[]
+  cliente_id       Int             @unique
+  cliente          Clientes        @relation(fields: [cliente_id], references: [pes_id])
 }
 
 enum StatusPedidos {
@@ -179,4 +252,29 @@ enum StatusPedidos {
   PAGO
   ENVIADO
   ENTREGUE
+}
+
+enum StatusItemPedido {
+  DEVOLVIDO
+  TROCADO
+  ENTREGUE
+}
+
+enum StatusTroca {
+  SOLICITADA
+  AGUARDANDO_ENVIO
+  RECEBIDO
+  VERIFICADO
+  EM_PROCESSAMENTO
+  CONCLUIDA
+}
+
+model Trocas {
+  tro_id         Int         @id @default(autoincrement())
+  tro_motivo     String
+  tro_status     StatusTroca
+  cliente_id     Int
+  cliente        Clientes    @relation(fields: [cliente_id], references: [pes_id])
+  item_pedido_id Int
+  item_pedido    ItensPedido @relation(fields: [item_pedido_id], references: [iped_id])
 }

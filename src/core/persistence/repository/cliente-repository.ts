@@ -1,74 +1,82 @@
-import {ClienteEntity} from "../../../domain/entities/cliente-entity";
-import {PessoaEntity} from "../../../domain/entities/pessoa-entity";
+import {ClienteEntity} from "../../../domain/entities/pessoa/cliente-entity";
+import {PessoaEntity} from "../../../domain/entities/pessoa/pessoa-entity";
 import {Result} from "../../../presentation/helpers/result";
 import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
-
-import {cryptoPassword} from "../../utils/cryptoPassword";
 import {Conection} from "./conection";
 import {HttpUnauthorized} from "../../../presentation/utils/errors/http-unauthorized";
 
-export class PessoaRepository implements IRepositoryCrud {
+export class ClienteRepository implements IRepositoryCrud {
   constructor() {
   }
 
-  public async create(cliente: ClienteEntity): Promise<Result> {
-    const senhaCriptografada = await cryptoPassword(cliente.senha);
+  public async create(clienteEntity: ClienteEntity): Promise<Result> {
     const result = new Result();
     try {
-      const create = await Conection.getConection().pessoas.create({
-        data: {
-          endereco: {
-            create: {
-              end_tipo_logradouro: cliente.endereco.tipoLogradouro,
-              end_tipo_imovel: cliente.endereco.tipoImovel,
-              end_tipo_endereco: cliente.endereco.tipoEndereco,
-              end_logradouro: cliente.endereco.logradouro,
-              end_numero: cliente.endereco.numero,
-              end_bairro: cliente.endereco.bairro,
-              end_cep: cliente.endereco.cep,
-              cidade: {
+      await Conection.getConection().$transaction(async (transaction) => {
+          const cliente = await transaction.pessoas.create({
+            data: {
+              endereco: {
                 create: {
-                  cid_nome: cliente.endereco.cidade.nome,
-                  estado: {
+                  end_tipo_logradouro: clienteEntity.endereco.tipoLogradouro,
+                  end_tipo_imovel: clienteEntity.endereco.tipoImovel,
+                  end_tipo_endereco: clienteEntity.endereco.tipoEndereco,
+                  end_logradouro: clienteEntity.endereco.logradouro,
+                  end_numero: clienteEntity.endereco.numero,
+                  end_bairro: clienteEntity.endereco.bairro,
+                  end_cep: clienteEntity.endereco.cep,
+                  cidade: {
                     create: {
-                      est_nome: cliente.endereco.cidade.estado.nome,
+                      cid_nome: clienteEntity.endereco.cidade.nome,
+                      estado: {
+                        create: {
+                          est_nome: clienteEntity.endereco.cidade.estado.nome,
+                        },
+                      },
                     },
                   },
                 },
               },
+              pes_tipo_fone: clienteEntity.telefone.tipo,
+              pes_cpf: clienteEntity.cpf,
+              pes_dataNascimento: clienteEntity.dataNascimento,
+              pes_ddd: clienteEntity.telefone.ddd,
+              pes_genero: clienteEntity.genero,
+              pes_isActive: clienteEntity.isActive,
+              pes_nome: clienteEntity.nome,
+              pes_numero: clienteEntity.telefone.numero,
+              pes_sobrenome: clienteEntity.sobrenome,
+              pes_email: clienteEntity.usuario.email,
+              pes_senha: clienteEntity.usuario.senha,
+              pes_admin: false,
+              cliente: {
+                create: {
+                  ranking: clienteEntity.ranking
+                }
+              }
             },
-          },
-          pes_tipo_fone: cliente.telefone.tipo,
-          pes_cpf: cliente.cpf,
-          pes_dataNascimento: cliente.dataNascimento,
-          pes_ddd: cliente.telefone.ddd,
-          pes_genero: cliente.genero,
-          pes_isActive: cliente.isActive,
-          pes_nome: cliente.nome,
-          pes_numero: cliente.telefone.numero,
-          pes_sobrenome: cliente.sobrenome,
-          usuario: {
-            create: {
-              user_email: cliente.email,
-              user_senha: senhaCriptografada,
-              user_admin: false,
+            include: {
+              cliente: true,
             }
-          },
-          cliente: {
-            create: {
-              ranking: cliente.ranking
+          })
+          result.data = cliente
+          await transaction.carrinhos.create({
+            data: {
+              icar_valor_total: 0,
+              cliente: {
+                connect: {
+                  pes_id: cliente.pes_id
+                }
+              }
             }
-          }
-        },
-        include: {
-          cliente: true,
-          usuario: true
+          })
         }
-      });
+      )
+
       result.status = 201;
       result.message = "cliente criado com sucesso";
-      result.data = create;
-    } catch (err) {
+
+    } catch
+      (err) {
       result.status = 400;
       result.error = "deu erro na criação";
     } finally {
@@ -115,7 +123,8 @@ export class PessoaRepository implements IRepositoryCrud {
     return result;
   }
 
-  public async getOne(entity: PessoaEntity): Promise<Result> {
+  public async getOne(entity: PessoaEntity):
+    Promise<Result> {
     const result = new Result();
     try {
       const cliente = await Conection.getConection().pessoas.findUnique({
@@ -124,13 +133,13 @@ export class PessoaRepository implements IRepositoryCrud {
         },
         include: {
           cliente: true,
-          usuario: true
         }
       });
       cliente && (result.data = cliente);
       result.message = "cliente recuperado com sucesso";
       result.status = 200;
-    } catch (e) {
+    } catch
+      (e) {
       throw new HttpUnauthorized('deu ruim')
     } finally {
 
@@ -138,7 +147,8 @@ export class PessoaRepository implements IRepositoryCrud {
     return result;
   }
 
-  public async update(cliente: ClienteEntity): Promise<Result> {
+  public async update(cliente: ClienteEntity):
+    Promise<Result> {
     const result = new Result();
     try {
       const clientes = await Conection.getConection().pessoas.update({
@@ -147,12 +157,8 @@ export class PessoaRepository implements IRepositoryCrud {
           pes_nome: cliente.nome,
           pes_sobrenome: cliente.sobrenome,
           pes_dataNascimento: cliente.dataNascimento,
-          usuario: {
-            update: {
-              user_email: cliente.email,
-              user_senha: cliente.senha,
-            }
-          },
+          pes_email: cliente.usuario.email,
+          pes_senha: cliente.usuario.senha,
           pes_cpf: cliente.cpf,
           pes_genero: cliente.genero,
           pes_isActive: cliente.isActive,
@@ -164,7 +170,6 @@ export class PessoaRepository implements IRepositoryCrud {
         },
         include: {
           cliente: true,
-          usuario: true
         }
       });
       result.data = clientes;
@@ -176,5 +181,25 @@ export class PessoaRepository implements IRepositoryCrud {
     } finally {
     }
     return result;
+  }
+
+  public async findUserByEmail(email: string) {
+    try {
+      const user = await Conection.getConection().pessoas.findUnique({
+        where: {
+          pes_email: email,
+        },
+        select: {
+          pes_id: true,
+          pes_email: true,
+          pes_senha: true,
+          pes_admin: true
+        }
+      });
+      return user;
+    } catch {
+      return null;
+    } finally {
+    }
   }
 }

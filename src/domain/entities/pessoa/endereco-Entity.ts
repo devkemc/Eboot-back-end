@@ -1,5 +1,5 @@
 import { TiposEndereco, TiposImovel, TiposLogradouro } from "@prisma/client";
-import { AbstractEntity } from "./abstract-entity";
+import { AbstractEntity } from "../abstract-entity";
 import { CidadeEntity } from "./cidade-entity";
 
 type EnderecoConstructor = {

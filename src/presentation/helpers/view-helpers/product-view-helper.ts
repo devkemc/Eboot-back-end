@@ -1,11 +1,11 @@
 import {Request} from "express";
-import {CidadeEntity} from "../../../domain/entities/cidade-entity";
-import {EnderecoEntity} from "../../../domain/entities/endereco-Entity";
-import {EstadoEntity} from "../../../domain/entities/estado-entity";
+import {CidadeEntity} from "../../../domain/entities/pessoa/cidade-entity";
+import {EnderecoEntity} from "../../../domain/entities/pessoa/endereco-Entity";
+import {EstadoEntity} from "../../../domain/entities/pessoa/estado-entity";
 import {Entity} from "../../../domain/interfaces/i-entity";
 import {AbstractViewHelper} from "./abstract-view-helper";
 import {Produtos} from "@prisma/client";
-import {ProdutoEntity} from "../../../domain/entities/produto-entity";
+import {ProdutoEntity} from "../../../domain/entities/produto/produto-entity";
 
 interface ProductWithCategory extends Produtos {
   categorias: {

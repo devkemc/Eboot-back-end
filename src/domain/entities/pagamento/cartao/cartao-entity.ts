@@ -1,4 +1,4 @@
-import { AbstractEntity } from "../../abstract-entity";
+import {AbstractEntity} from "../../abstract-entity";
 
 type CartaoConstructor = {
   id?: number;
@@ -7,6 +7,7 @@ type CartaoConstructor = {
   codSegurancaCartao: number;
   bandeiraCartao: string;
 };
+
 export class CartaoEntity extends AbstractEntity {
   private _numero: number;
   private _nomeImpresso: string;

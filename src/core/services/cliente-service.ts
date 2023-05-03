@@ -1,6 +1,6 @@
-import { PessoaEntity } from "../../domain/entities/pessoa-entity";
+import { PessoaEntity } from "../../domain/entities/pessoa/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
-import { PessoaRepository } from "../persistence/repository/cliente-repository";
+import { ClienteRepository } from "../persistence/repository/cliente-repository";
 import { ValidaExistencia } from "../strategies/valida-existência";
 import { ValidaSenhaForte } from "../strategies/valida-senha-forte";
 import { ValidarDadosObrigatoriosCliente } from "../strategies/validar-dados-obrigatorios-cliente";
@@ -9,7 +9,7 @@ import { AbsServiceCrud } from "./abs-service-crud";
 export class ClienteService extends AbsServiceCrud {
   constructor() {
     super();
-    this.repository = new PessoaRepository();
+    this.repository = new ClienteRepository();
     this.strategies = [
       new ValidaSenhaForte(),
       new ValidarDadosObrigatoriosCliente(),

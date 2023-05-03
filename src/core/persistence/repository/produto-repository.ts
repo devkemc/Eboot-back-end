@@ -2,7 +2,7 @@ import {Conection} from "./conection";
 import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
 import {Result} from "../../../presentation/helpers/result";
 import {Entity} from "../../../domain/interfaces/i-entity";
-import {ProdutoEntity} from "../../../domain/entities/produto-entity";
+import {ProdutoEntity} from "../../../domain/entities/produto/produto-entity";
 
 export class ProdutoRepository  implements IRepositoryCrud{
   public async create(entity: Entity): Promise<Result> {

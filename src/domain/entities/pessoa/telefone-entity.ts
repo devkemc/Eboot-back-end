@@ -1,5 +1,5 @@
 import { TiposTelefone } from "@prisma/client";
-import { AbstractEntity } from "./abstract-entity";
+import { AbstractEntity } from "../abstract-entity";
 
 type TelefoneConstructor = {
   id?: number;
