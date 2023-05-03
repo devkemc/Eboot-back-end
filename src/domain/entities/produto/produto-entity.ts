@@ -1,5 +1,5 @@
 import {AbstractEntity} from "./abstract-entity";
-import {Categoria} from "./Categoria";
+import {Categoria} from "./categoria";
 
 type Constructor = {
   id?: number

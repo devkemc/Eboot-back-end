@@ -1,4 +1,4 @@
-import { AbstractEntity } from "./abstract-entity";
+import { AbstractEntity } from "../../abstract-entity";
 
 type CartaoConstructor = {
   id?: number;

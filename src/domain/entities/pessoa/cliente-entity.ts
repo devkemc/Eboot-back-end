@@ -1,4 +1,4 @@
-import { CartaoEntity } from "./cartao-entity";
+import { CartaoEntity } from "./pagamento/cartao/cartao-entity";
 import { PessoaConstructor, PessoaEntity } from "./pessoa-entity";
 
 interface ClienteConstructor extends PessoaConstructor {

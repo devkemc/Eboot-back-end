@@ -2,6 +2,7 @@
 import { AbstractEntity } from "./abstract-entity";
 import { EnderecoEntity } from "./endereco-Entity";
 import { TelefoneEntity } from "./telefone-entity";
+import {UsuarioConstructor, UsuarioEntity} from "./usuario-entity";
 
 export interface PessoaConstructor {
   id?: number;
@@ -22,40 +23,35 @@ export class PessoaEntity extends AbstractEntity {
   protected _dataNascimento: Date;
   protected _genero: string;
   protected _cpf: string;
-  protected _email: string;
-  protected _senha: string;
+  protected _usuario: UsuarioEntity
   protected _telefone: TelefoneEntity;
-  
   private _isActive: boolean;
-  
   private _endereco: EnderecoEntity;
 
   constructor(pessoa: PessoaConstructor) {
     super(pessoa.id);
     this._cpf = pessoa.cpf;
-    this._email = pessoa.email;
     this._dataNascimento = pessoa.dataNascimento;
     this._endereco = pessoa.endereco;
     this._genero = pessoa.genero;
     this._nome = pessoa.nome;
     this._sobrenome = pessoa.sobrenome;
     this._isActive = pessoa.isActive ? pessoa.isActive : true;
-    this._senha = pessoa.senha;
     this._telefone = pessoa.telefone;
+    this._usuario = new UsuarioEntity(pessoa as unknown as UsuarioConstructor)
   }
 
   public get nome() {
     return this._nome;
   }
-
+  public get usuario(){
+    return this._usuario
+  }
   public get sobrenome() {
     return this._sobrenome;
   }
   public get dataNascimento() {
     return this._dataNascimento;
-  }
-  public get email() {
-    return this._email;
   }
 
   public get cpf() {
@@ -64,10 +60,6 @@ export class PessoaEntity extends AbstractEntity {
 
   public get genero() {
     return this._genero;
-  }
-
-  public get senha() {
-    return this._senha;
   }
 
   public get endereco() {
