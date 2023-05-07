@@ -6,27 +6,27 @@ import {UsuarioConstructor, UsuarioEntity} from "./usuario-entity";
 
 export interface PessoaConstructor {
   id?: number;
-  nome: string;
-  sobrenome: string;
-  dataNascimento: Date;
-  genero: string;
-  cpf: string;
-  email: string;
-  senha: string;
-  isActive: boolean;
-  endereco: EnderecoEntity;
-  telefone: TelefoneEntity;
+  nome?: string;
+  sobrenome?: string;
+  dataNascimento?: Date;
+  genero?: string;
+  cpf?: string;
+  email?: string;
+  senha?: string;
+  isActive?: boolean;
+  endereco?: EnderecoEntity;
+  telefone?: TelefoneEntity;
 };
 export class PessoaEntity extends AbstractEntity {
-  protected _nome: string;
-  protected _sobrenome: string;
-  protected _dataNascimento: Date;
-  protected _genero: string;
-  protected _cpf: string;
-  protected _usuario: UsuarioEntity
-  protected _telefone: TelefoneEntity;
-  private _isActive: boolean;
-  private _endereco: EnderecoEntity;
+  protected _nome?: string;
+  protected _sobrenome?: string;
+  protected _dataNascimento?: Date;
+  protected _genero?: string;
+  protected _cpf?: string;
+  protected _usuario?: UsuarioEntity
+  protected _telefone?: TelefoneEntity;
+  private _isActive?: boolean;
+  private _endereco?: EnderecoEntity;
 
   constructor(pessoa: PessoaConstructor) {
     super(pessoa.id);

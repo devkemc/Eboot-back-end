@@ -90,6 +90,7 @@ model Enderecos {
   pessoa_id           Int
   cidade              Cidades         @relation(fields: [cidade_id], references: [cid_id])
   cidade_id           Int
+  pedidos             Pedidos?
 }
 
 enum TiposImovel {
@@ -176,6 +177,8 @@ model Pedidos {
   ped_createdAt           DateTime                  @default(now())
   ped_updateAt            DateTime                  @updatedAt
   Pedidos_Forma_Pagamento Pedidos_Forma_Pagamento[]
+  endereco_id             Int
+  endereco                Enderecos                 @relation(fields: [endereco_id], references: [end_id])
 }
 
 model Pedidos_Forma_Pagamento {

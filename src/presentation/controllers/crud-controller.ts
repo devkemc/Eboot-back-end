@@ -2,6 +2,7 @@ import { json, Request, Response } from "express";
 import { FactoryViewHelper } from "../helpers/view-helpers/factory-view-helper";
 import { FactoryCommandCrud } from "../comands/factory-command-crud";
 import { Entity } from "../../domain/interfaces/i-entity";
+import {TiposLogradouro} from "@prisma/client";
 
 export class CrudController {
   public async handle(req: Request, res: Response) {

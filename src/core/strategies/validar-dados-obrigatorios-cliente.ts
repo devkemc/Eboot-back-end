@@ -13,12 +13,12 @@ export class ValidarDadosObrigatoriosCliente implements IStrategy {
       !!entidade.nome &&
       !!entidade.sobrenome &&
       !!entidade.cpf &&
-      !!entidade.usuario.email &&
+      !!entidade!.usuario!.email! &&
       !!entidade.dataNascimento &&
       !!entidade.genero
     ) {
-      result = await validaTel.processar(entidade.telefone);
-      !result.error && (result = await validaEnd.processar(entidade.endereco));
+      result = await validaTel.processar(entidade!.telefone!);
+      !result.error && (result = await validaEnd.processar(entidade!.endereco!));
       return result;
     }
     result.error = "Dados invalidos, está faltando dados";

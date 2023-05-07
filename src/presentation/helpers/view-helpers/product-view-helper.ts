@@ -18,7 +18,7 @@ interface ProductWithCategory extends Produtos {
 export class ProductsViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal} = req.body
-    super(new ProdutoEntity({id:req.params.id ? Number(req.params.id) : id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal}))
+    super(new ProdutoEntity({id:req.query.id ? Number(req.query.id) : id, nome, categoria, preco, status, foto3, foto2, foto1, descricao, quantidadeTotal}))
   }
 
   public setView(entity: Entity): Entity {

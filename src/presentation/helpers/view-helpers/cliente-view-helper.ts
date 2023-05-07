@@ -58,7 +58,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
     });
     super(
       new ClienteEntity({
-        id: req.params.id ? Number(req.params.id) : id,
+        id: req.query.id ? Number(req.query.id) : id,
         nome,
         sobrenome,
         dataNascimento: dataNascimento

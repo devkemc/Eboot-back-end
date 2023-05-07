@@ -1,6 +1,7 @@
 import { TiposEndereco, TiposImovel, TiposLogradouro } from "@prisma/client";
 import { AbstractEntity } from "../abstract-entity";
 import { CidadeEntity } from "./cidade-entity";
+import {PessoaEntity} from "./pessoa-entity";
 
 type EnderecoConstructor = {
   id?: number;
@@ -12,6 +13,7 @@ type EnderecoConstructor = {
   bairro: string;
   cep: number;
   cidade: CidadeEntity;
+  pessoa?: PessoaEntity;
 };
 export class EnderecoEntity extends AbstractEntity {
   private _tipoImovel: TiposImovel;
@@ -22,6 +24,7 @@ export class EnderecoEntity extends AbstractEntity {
   private _bairro: string;
   private _cep: number;
   private _cidade: CidadeEntity;
+  private _pessoa?: PessoaEntity;
 
   constructor(endereco: EnderecoConstructor) {
     super(endereco.id);
@@ -33,6 +36,7 @@ export class EnderecoEntity extends AbstractEntity {
     this._bairro = endereco.bairro;
     this._cep = endereco.cep;
     this._cidade = endereco.cidade;
+    this._pessoa = endereco.pessoa
   }
 
   public get tipoImovel() {
@@ -65,5 +69,9 @@ export class EnderecoEntity extends AbstractEntity {
 
   public get cidade() {
     return this._cidade;
+  }
+
+  public get pessoa(){
+    return this._pessoa
   }
 }

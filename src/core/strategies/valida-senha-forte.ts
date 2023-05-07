@@ -7,8 +7,8 @@ export class ValidaSenhaForte implements IStrategy {
     const result = new Result();
     const senhaValida =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
-    if (senhaValida.test(entidade.usuario.senha)) {
-      await entidade.usuario.criptografarSenha()
+    if (senhaValida.test(entidade!.usuario!.senha!)) {
+      await entidade!.usuario!.criptografarSenha()
       return result
     }
     result.error =
