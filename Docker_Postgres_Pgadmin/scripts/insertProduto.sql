@@ -1,3 +1,35 @@
+
+
+INSERT INTO public."Categorias"(cat_nome) --Categoria Masculino
+VALUES ("Masculino");
+
+INSERT INTO public."Categorias"(cat_nome) --Categoria Feminino
+VALUES ("Feminino");
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (35);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (36);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (37);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (38);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (39);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (40);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (41);
+
+INSERT INTO public."Tamanhos"(tam_tamanho)
+VALUES (42);
+
 -- Produto1
 INSERT INTO public."Produtos"(prod_nome, prod_descricao, prod_url_foto1, prod_url_foto2, prod_url_foto3,
                               prod_preco, prod_status, "prod_createdAt", "prod_updateAt", categoria_id,
@@ -12,6 +44,22 @@ VALUES ('Tênis Revolution',
         now(),
         now(),
         1,50);
+-- Tamanhos do Produto1
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 1, 3);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 1, 4);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 1, 5);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (20, 1, 7);
 
 -- Produto2
 INSERT INTO public."Produtos"(prod_nome, prod_descricao, prod_url_foto1, prod_url_foto2, prod_url_foto3, prod_preco,
@@ -28,6 +76,25 @@ VALUES ('Tênis Masculino Mizuno Wave Creation 23',
         now(),
         1,
         50);
+
+-- Tamanhos do produto2
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (20, 2, 2);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 2, 8);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 2, 5);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (20, 2, 7);
+
+
 -- Produto3
 INSERT INTO public."Produtos"(prod_nome, prod_descricao, prod_url_foto1, prod_url_foto2, prod_url_foto3,
                               prod_preco, prod_status, "prod_createdAt", "prod_updateAt", categoria_id,
@@ -43,6 +110,24 @@ VALUES ('Tênis de Corrida Feminino Mizuno Wave Stratos',
         now(),
         now(),
         2, 50);
+-- Tamanhos do produto 3
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (20, 3, 2);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 3, 8);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 3, 5);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (20, 3, 7);
+
+
 -- Produto4
 INSERT INTO public."Produtos"(prod_nome, prod_descricao, prod_url_foto1, prod_url_foto2, prod_url_foto3,
                               prod_preco, prod_status, "prod_createdAt", "prod_updateAt", categoria_id,
@@ -58,6 +143,20 @@ VALUES ('Tênis Nike Air Max Excee Masculino',
         now(),
         1,
         50);
+-- Tamanhos produto 4
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (30, 4, 2);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 4, 8);
+
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (10, 4, 5);
+
+
 -- Produto5
 INSERT INTO public."Produtos"(prod_nome, prod_descricao, prod_url_foto1, prod_url_foto2, prod_url_foto3,
                                prod_preco, prod_status, "prod_createdAt", "prod_updateAt", categoria_id, prod_quantidade_total)
@@ -72,3 +171,7 @@ VALUES ('Tênis Nike Downshifter 12 Feminino',
         now(),
         2,
         50); --Categoria 2 é Feminino
+-- Tamanhos produto 5
+INSERT INTO public."ProdutosTamanhos"(
+        quantidade, produto_id, tamanho_id)
+VALUES (50, 5, 2);

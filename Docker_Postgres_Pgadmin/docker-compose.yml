@@ -1,0 +1,41 @@
+version: "3"
+services:
+  eboot_postgres:
+    container_name: eboot_postgres
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "12345678"
+    ports:
+      - "15432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - eboot-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  eboot_pgadmin:
+    image: dpage/pgadmin4:6.20
+    container_name: eboot_pgadmin
+    restart: "no"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@eboot.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "12345678"
+      POSTGRES_PASSWORD: "12345678"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "8085:80"
+    networks:
+      - eboot-network
+
+networks:
+  eboot-network:
+    driver: bridge
+
+volumes:
+  pg_data:
