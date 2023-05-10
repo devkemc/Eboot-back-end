@@ -1,10 +1,11 @@
-import {clientes, enderecos, itemCarrinho, produtos} from "../../presentation/routes/endpoint";
-import { ClienteService } from "./cliente-service";
+import {carrinho, clientes, enderecos, itemCarrinho, produtos} from "../../presentation/routes/endpoint";
+import {ClienteService} from "./cliente-service";
 import {ProdutoService} from "./produto-service";
 import {HttpNotFound} from "../../presentation/utils/errors/http-not-found";
 import {pegaPathOriginal} from "../../presentation/utils/pega-path-original";
 import {EnderecoService} from "./endereco-service";
 import {ItemCarrinhoService} from "./item-carrinho-service";
+import {CarrinhoService} from "./carrinho-service";
 
 export class FactoryService {
   public static createService(path: string) {
@@ -18,6 +19,8 @@ export class FactoryService {
         return new EnderecoService()
       case itemCarrinho:
         return new ItemCarrinhoService()
+      case carrinho:
+        return new CarrinhoService()
       default:
         throw new HttpNotFound('Service não configura para este endpoint')
     }

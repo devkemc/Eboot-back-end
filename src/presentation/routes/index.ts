@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CrudController } from "../controllers/crud-controller";
-import {itemCarrinho, clientes, enderecos, produtos} from "./endpoint";
+import {itemCarrinho, clientes, enderecos, produtos, carrinho} from "./endpoint";
 import { AuthenticateUserController } from "../controllers/authenticate-user-controller";
 import { ensureAuthenticated } from "../middlewares/ensure-authenticated";
 
@@ -23,4 +23,6 @@ routes.post(`${enderecos}`, controllerCrud.handle)
 routes.get(`${enderecos}`, controllerCrud.handle)
 
 routes.post(`${itemCarrinho}`, controllerCrud.handle)
-routes.get(`${itemCarrinho}`, controllerCrud.handle)
+routes.get(`${carrinho}`, controllerCrud.handle)
+
+

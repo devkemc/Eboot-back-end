@@ -1,5 +1,5 @@
 import {AbsServiceCrud} from "./abs-service-crud";
-import {ItemCarrinhoRepository} from "../persistence/repository/item-carrinho-repository";
+import {ItemCarrinhoRepository} from "../persistence/repository/carrinho/item-carrinho-repository";
 import {ItemCarrinhoEntity} from "../../domain/entities/carrinho/item-carrinho-entity";
 import {ProdutoRepository} from "../persistence/repository/produto-repository";
 import {Produtos} from "@prisma/client";

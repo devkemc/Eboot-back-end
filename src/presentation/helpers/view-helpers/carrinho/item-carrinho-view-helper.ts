@@ -1,11 +1,11 @@
-import {AbstractViewHelper} from "./abstract-view-helper";
+import {AbstractViewHelper} from "../abstract-view-helper";
 import {Request} from "express";
-import {ProdutoEntity} from "../../../domain/entities/produto/produto-entity";
-import {ItemCarrinhoEntity} from "../../../domain/entities/carrinho/item-carrinho-entity";
-import {CarrinhoEntity} from "../../../domain/entities/carrinho/carrinho-entity";
-import {Entity} from "../../../domain/interfaces/i-entity";
+import {ProdutoEntity} from "../../../../domain/entities/produto/produto-entity";
+import {ItemCarrinhoEntity} from "../../../../domain/entities/carrinho/item-carrinho-entity";
+import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-entity";
+import {Entity} from "../../../../domain/interfaces/i-entity";
 import {ItensCarrinho} from "@prisma/client";
-import {itemCarrinho} from "../../routes/endpoint";
+import {itemCarrinho} from "../../../routes/endpoint";
 
 export class ItemCarrinhoViewHelper extends AbstractViewHelper {
   constructor(req: Request) {

@@ -1,10 +1,10 @@
-import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
-import {ItemCarrinhoEntity} from "../../../domain/entities/carrinho/item-carrinho-entity";
-import {Result} from "../../../presentation/helpers/result";
-import {Conection} from "./conection";
-import {CarrinhoEntity} from "../../../domain/entities/carrinho/carrinho-entity";
-import {HttpBadRequest} from "../../../presentation/utils/errors/http-bad-request";
-import {Entity} from "../../../domain/interfaces/i-entity";
+import {IRepositoryCrud} from "../../../interfaces/i-repository-crud";
+import {ItemCarrinhoEntity} from "../../../../domain/entities/carrinho/item-carrinho-entity";
+import {Result} from "../../../../presentation/helpers/result";
+import {Conection} from "../conection";
+import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-entity";
+import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-request";
+import {Entity} from "../../../../domain/interfaces/i-entity";
 
 export class ItemCarrinhoRepository implements IRepositoryCrud{
   public async create(itemCarrinho: ItemCarrinhoEntity): Promise<Result> {
