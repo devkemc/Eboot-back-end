@@ -6,17 +6,17 @@ import {CarrinhoEntity} from "../../../domain/entities/carrinho/carrinho-entity"
 import {HttpBadRequest} from "../../../presentation/utils/errors/http-bad-request";
 import {Entity} from "../../../domain/interfaces/i-entity";
 
-export class CarrinhoRepository implements IRepositoryCrud{
-  public async create(carrinho: CarrinhoEntity): Promise<Result> {
+export class ItemCarrinhoRepository implements IRepositoryCrud{
+  public async create(itemCarrinho: ItemCarrinhoEntity): Promise<Result> {
     const result = new Result()
     try{
       result.data = await Conection.getConection().itensCarrinho.create({
         data:{
-          produto_id: carrinho.itemCarrinho.produto.id!,
-          icar_tamanho: carrinho.itemCarrinho.tamanho,
-          icar_quantidade: carrinho.itemCarrinho.quantidade,
-          icar_valor_total: carrinho.itemCarrinho.valorTotal,
-          carrinho_id : carrinho.id!,
+          produto_id: itemCarrinho.produto!.id!,
+          icar_tamanho: itemCarrinho.tamanho!,
+          icar_quantidade: itemCarrinho.quantidade!,
+          icar_valor_total: itemCarrinho.valorTotal!,
+          carrinho_id : itemCarrinho.carrinho!.id!,
 
         }
       })

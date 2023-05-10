@@ -66,7 +66,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
           : dataNascimento,
         email,
         senha,
-        ranking: 0,
+        ranking: ranking ?? 0,
         isActive,
         cpf,
         genero,

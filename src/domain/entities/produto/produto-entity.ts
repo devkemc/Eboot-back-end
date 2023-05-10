@@ -3,28 +3,28 @@ import {Categoria} from "./categoria";
 
 type Constructor = {
   id?: number
-  nome: string
-  descricao: string
-  foto1: string
-  foto2: string
-  foto3: string
-  quantidadeTotal: number
-  preco: number
-  status: boolean
-  categoria: Categoria
+  nome?: string
+  descricao?: string
+  foto1?: string
+  foto2?: string
+  foto3?: string
+  quantidadeTotal?: number
+  preco?: number
+  status?: boolean
+  categoria?: Categoria
 
 }
 
 export class ProdutoEntity extends AbstractEntity {
-  private _nome: string;
-  private _descricao: string;
-  private _foto1: string
-  private _foto2: string
-  private _foto3: string
-  private _quantidadeTotal: number
-  private _preco: number
-  private _status: boolean
-  private _categoria: Categoria
+  private _nome?: string;
+  private _descricao?: string;
+  private _foto1?: string
+  private _foto2?: string
+  private _foto3?: string
+  private _quantidadeTotal?: number
+  private _preco?: number
+  private _status?: boolean
+  private _categoria?: Categoria
 
   constructor(produto: Constructor) {
     super(produto.id);

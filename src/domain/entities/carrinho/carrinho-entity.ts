@@ -4,14 +4,14 @@ import {ItemCarrinhoEntity} from "./item-carrinho-entity";
 
 export interface CarrinhoConstructor{
   id?:number
-  valorTotal:number
-  cliente:ClienteEntity
-  itemCarrinho:  ItemCarrinhoEntity
+  valorTotal?:number
+  cliente?:ClienteEntity
+  itemCarrinho?:  [ItemCarrinhoEntity]
 }
 export class CarrinhoEntity extends AbstractEntity{
-  private _valorTotal: number
-  private _cliente: ClienteEntity
-  private  _itemCarrinho : ItemCarrinhoEntity
+  private _valorTotal?: number
+  private _cliente?: ClienteEntity
+  private  _itemCarrinho?: [ItemCarrinhoEntity]
 
   constructor(carrinho:CarrinhoConstructor) {
     super(carrinho.id);
