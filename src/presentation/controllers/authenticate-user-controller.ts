@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthenticateUserService } from "../../core/services/authenticate-user-service";
+import { AuthenticateUserService } from "../../core/services/autenticacao/authenticate-user-service";
 import {UsuarioEntity} from "../../domain/entities/pessoa/usuario-entity";
 
 export class AuthenticateUserController {

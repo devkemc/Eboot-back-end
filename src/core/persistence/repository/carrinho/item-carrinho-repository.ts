@@ -6,7 +6,7 @@ import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-enti
 import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-request";
 import {Entity} from "../../../../domain/interfaces/i-entity";
 import {carrinho, itemCarrinho} from "../../../../presentation/routes/endpoint";
-import {ItemCarrinhoService} from "../../../services/item-carrinho-service";
+import {ItemCarrinhoService} from "../../../services/carrinho/item-carrinho-service";
 
 export class ItemCarrinhoRepository implements IRepositoryCrud {
   public async create(itemCarrinho: ItemCarrinhoEntity): Promise<Result> {

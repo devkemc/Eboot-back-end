@@ -7,7 +7,7 @@ import { GetAllCommand } from "./get-command";
 import { GetOneCommand } from "./get-one-command";
 import { UpdateCommand } from "./update-command";
 import { AbsServiceCrud } from "../../core/services/abs-service-crud";
-import { FactoryService } from "../../core/services/factory-service";
+import { FactoryService } from "../../core/services/factory/factory-service";
 import { AbstractEntity } from "../../domain/entities/abstract-entity";
 
 export class FactoryCommandCrud {

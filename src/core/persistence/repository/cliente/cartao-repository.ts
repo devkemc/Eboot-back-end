@@ -10,12 +10,12 @@ export class CartaoRepository implements IRepositoryCrud {
     try{
       const createdCard = await Conection.getConection().cartoes.create({
         data:{
-          crt_nome_impresso: card.nomeImpresso,
-          crt_numero_cartao: card.numero,
-          crt_cod_seguranca: card.codSeguranca,
-          crt_bandeira: card.bandeiraCartao,
-          crt_data_validade: card.dataValidade,
-          cliente_id: card.cliente.id
+          crt_nome_impresso: card.nomeImpresso!,
+          crt_numero_cartao: card.numero!,
+          crt_cod_seguranca: card.codSeguranca!,
+          crt_bandeira: card.bandeiraCartao!,
+          crt_data_validade: card.dataValidade!,
+          cliente_id: card.cliente!.id!
         }
       })
     }catch (e){

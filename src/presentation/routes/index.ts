@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CrudController } from "../controllers/crud-controller";
-import {itemCarrinho, clientes, enderecos, produtos, carrinho} from "./endpoint";
+import {itemCarrinho, clientes, enderecos, produtos, carrinho, Endpoint} from "./endpoint";
 import { AuthenticateUserController } from "../controllers/authenticate-user-controller";
 import { ensureAuthenticated } from "../middlewares/ensure-authenticated";
 
@@ -8,24 +8,24 @@ export const routes = Router();
 
 const controllerCrud = new CrudController();
 const authenticateUserController = new AuthenticateUserController();
-routes.post(`${clientes}`, controllerCrud.handle);
-routes.get(`${produtos}`, controllerCrud.handle)
-routes.get(`${produtos}`, controllerCrud.handle)
-routes.post("/login", authenticateUserController.handle);
+
+routes.post(Endpoint.CLIENTES, controllerCrud.handle);
+routes.get(Endpoint.PRODUTOS, controllerCrud.handle)
+routes.post(Endpoint.LOGIN, authenticateUserController.handle);
 
 routes.use(ensureAuthenticated);
 
-routes.get(`${clientes}`, controllerCrud.handle);
-routes.delete(`${clientes}`, controllerCrud.handle);
-routes.patch(`${clientes}`, controllerCrud.handle);
+routes.get(Endpoint.CLIENTES, controllerCrud.handle);
+routes.delete(Endpoint.CLIENTES, controllerCrud.handle);
+routes.patch(Endpoint.CLIENTES, controllerCrud.handle);
 
-routes.post(`${enderecos}`, controllerCrud.handle)
-routes.get(`${enderecos}`, controllerCrud.handle)
+routes.post(Endpoint.ENDERECOS, controllerCrud.handle)
+routes.get(Endpoint.ENDERECOS, controllerCrud.handle)
 
-routes.post(`${itemCarrinho}`, controllerCrud.handle)
-routes.patch(`${itemCarrinho}`, controllerCrud.handle)
-routes.delete(`${itemCarrinho}`, controllerCrud.handle)
-routes.get(`${carrinho}`, controllerCrud.handle)
+routes.post(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
+routes.patch(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
+routes.delete(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
+routes.get(Endpoint.CARRINHO, controllerCrud.handle)
 
 
 

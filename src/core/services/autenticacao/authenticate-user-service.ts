@@ -1,10 +1,10 @@
 import {compare} from "bcryptjs";
 import {sign} from "jsonwebtoken";
-import {HttpUnauthorized} from "../../presentation/utils/errors/http-unauthorized";
-import {Result} from "../../presentation/helpers/result";
-import {ClienteService} from "./cliente-service";
+import {HttpUnauthorized} from "../../../presentation/utils/errors/http-unauthorized";
+import {Result} from "../../../presentation/helpers/result";
+import {ClienteService} from "../cliente/cliente-service";
 import {Pessoas} from "@prisma/client";
-import {ClienteRepository} from "../persistence/repository/cliente/cliente-repository";
+import {ClienteRepository} from "../../persistence/repository/cliente/cliente-repository";
 
 interface IAuthenticateRequest {
   email: string;
