@@ -23,6 +23,10 @@ routes.post(`${enderecos}`, controllerCrud.handle)
 routes.get(`${enderecos}`, controllerCrud.handle)
 
 routes.post(`${itemCarrinho}`, controllerCrud.handle)
+routes.patch(`${itemCarrinho}`, controllerCrud.handle)
+routes.delete(`${itemCarrinho}`, controllerCrud.handle)
 routes.get(`${carrinho}`, controllerCrud.handle)
+
+
 
 

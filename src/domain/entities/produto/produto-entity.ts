@@ -74,4 +74,7 @@ export class ProdutoEntity extends AbstractEntity {
   get categoria() {
     return this._categoria
   }
+  set setPreco(p:number){
+    this._preco = p
+  }
 }

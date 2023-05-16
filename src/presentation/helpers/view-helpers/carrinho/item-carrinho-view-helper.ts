@@ -11,12 +11,12 @@ export class ItemCarrinhoViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {
       itemCarrinhoId,
-      carrinhoId,
+      clienteId,
       produtoId,
       tamanhoTenis,
       quantidadeProduto
     } = req.body
-    const carrinho = new CarrinhoEntity({id: carrinhoId})
+    const carrinho = new CarrinhoEntity({id: clienteId})
     const produto = new ProdutoEntity({id: produtoId})
     const itemCarrinho = new ItemCarrinhoEntity({
       id: itemCarrinhoId,
@@ -33,7 +33,7 @@ export class ItemCarrinhoViewHelper extends AbstractViewHelper {
     return {
       itemCarrinhoId: item.icar_id,
       itemCarrinhoQuantidade: item.icar_quantidade,
-      itemCarrinhoTamanho: item.icar_tamanho,
+      itemCarrinhoTamanho: item.carrinho_id,
       produtoId: item.produto_id,
       carrinhoId: item.carrinho_id,
       itemCarrinhoValorTotal: item.icar_valor_total

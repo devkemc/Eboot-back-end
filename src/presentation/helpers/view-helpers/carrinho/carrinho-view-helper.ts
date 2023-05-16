@@ -3,6 +3,7 @@ import {Request} from "express";
 import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-entity";
 import {Entity} from "../../../../domain/interfaces/i-entity";
 import {Carrinhos} from "@prisma/client";
+import {ClienteEntity} from "../../../../domain/entities/pessoa/cliente-entity";
 
 interface CarrinhoComItem extends Carrinhos {
   item_carrinho: [{
@@ -13,8 +14,7 @@ interface CarrinhoComItem extends Carrinhos {
 export class CarrinhoViewHelper extends AbstractViewHelper {
   constructor(req: Request
   ) {
-    const {carrinhoId} = req.body
-    const carrinho = new CarrinhoEntity({id: req.query.id ? Number(req.query.id) : carrinhoId})
+    const carrinho = new CarrinhoEntity({id: req.query.clienteId ? Number(req.query.clienteId) : 1})
     super(carrinho);
   }
 

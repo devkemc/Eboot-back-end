@@ -4,7 +4,7 @@ import {HttpUnauthorized} from "../../presentation/utils/errors/http-unauthorize
 import {Result} from "../../presentation/helpers/result";
 import {ClienteService} from "./cliente-service";
 import {Pessoas} from "@prisma/client";
-import {ClienteRepository} from "../persistence/repository/cliente-repository";
+import {ClienteRepository} from "../persistence/repository/cliente/cliente-repository";
 
 interface IAuthenticateRequest {
   email: string;

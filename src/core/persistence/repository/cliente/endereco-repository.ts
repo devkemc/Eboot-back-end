@@ -1,9 +1,9 @@
-import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
-import {Result} from "../../../presentation/helpers/result";
-import {Entity} from "../../../domain/interfaces/i-entity";
-import {EnderecoEntity} from "../../../domain/entities/pessoa/endereco-Entity";
-import {Conection} from "./conection";
-import {HttpBadRequest} from "../../../presentation/utils/errors/http-bad-request";
+import {IRepositoryCrud} from "../../../interfaces/i-repository-crud";
+import {Result} from "../../../../presentation/helpers/result";
+import {Entity} from "../../../../domain/interfaces/i-entity";
+import {EnderecoEntity} from "../../../../domain/entities/pessoa/endereco-Entity";
+import {Conection} from "../conection";
+import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-request";
 
 export class EnderecoRepository implements IRepositoryCrud {
   public async create(endereco: EnderecoEntity): Promise<Result> {
@@ -60,8 +60,31 @@ export class EnderecoRepository implements IRepositoryCrud {
     return Promise.resolve(new Result());
   }
 
-  getOne(entity: Entity): Promise<Result> {
-    return Promise.resolve(new Result());
+  public async getOne(endereco: EnderecoEntity): Promise<Result> {
+    const result = new Result()
+    try{
+      const end = await Conection.getConection().enderecos.findMany({
+        where:{
+          pessoa_id: endereco.pessoa?.id,
+          end_tipo_endereco: "ENTREGA"
+        },
+        include:{
+          cidade:{
+            include:{
+              estado: true
+            }
+          }
+        },
+      })
+      result.data = end
+      result.status = 200
+      result.message = "Endereços recuperados com sucesso"
+
+    }catch (e){
+      throw new HttpBadRequest('Erro ao localizar endereços de entrega. Tente novamente');
+    }
+
+    return result
   }
 
   update(entity: Entity): Promise<Result> {

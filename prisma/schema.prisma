@@ -47,6 +47,7 @@ model Cartoes {
   crt_numero_cartao    Float
   crt_nome_impresso    String            @db.VarChar(100)
   crt_cod_seguranca    Int
+  crt_data_validade    DateTime
   cliente              Clientes?         @relation(fields: [cliente_id], references: [pes_id])
   cliente_id           Int?
   FormaPagamentoEntity FormaPagamento[]
@@ -90,7 +91,7 @@ model Enderecos {
   pessoa_id           Int
   cidade              Cidades         @relation(fields: [cidade_id], references: [cid_id])
   cidade_id           Int
-  pedidos             Pedidos?
+  pedidos             Pedidos[]
 }
 
 enum TiposImovel {
@@ -131,28 +132,28 @@ model Categorias {
 }
 
 model Produtos {
-  prod_id               Int                @id @default(autoincrement())
-  prod_nome             String
-  prod_descricao        String
-  prod_url_foto1        String
-  prod_url_foto2        String
-  prod_url_foto3        String
-  prod_quantidade_total Int
-  prod_preco            Float
-  prod_status           Boolean
-  prod_createdAt        DateTime           @default(now())
-  prod_updateAt         DateTime           @updatedAt
-  categoria_id          Int
-  categorias            Categorias         @relation(fields: [categoria_id], references: [cat_id])
-  tamanhos              ProdutosTamanhos[]
-  item_pedido           ItensPedido[]
-  item_carrinho         ItensCarrinho[]
+  prod_id        Int                @id @default(autoincrement())
+  prod_nome      String
+  prod_descricao String
+  prod_url_foto1 String
+  prod_url_foto2 String
+  prod_url_foto3 String
+  prod_preco     Float
+  prod_status    Boolean
+  prod_createdAt DateTime           @default(now())
+  prod_updateAt  DateTime           @updatedAt
+  categoria_id   Int
+  categorias     Categorias         @relation(fields: [categoria_id], references: [cat_id])
+  tamanhos       ProdutosTamanhos[]
+  item_pedido    ItensPedido[]
+  item_carrinho  ItensCarrinho[]
 }
 
 model Tamanhos {
-  tam_id      Int                @id @default(autoincrement())
-  tam_tamanho Int
-  produto     ProdutosTamanhos[]
+  tam_id        Int                @id @default(autoincrement())
+  tam_tamanho   Int
+  produto       ProdutosTamanhos[]
+  ItensCarrinho ItensCarrinho[]
 }
 
 model ProdutosTamanhos {
@@ -234,7 +235,8 @@ model ItensCarrinho {
   icar_id          Int       @id @default(autoincrement())
   icar_quantidade  Int
   icar_valor_total Float
-  icar_tamanho     Int
+  tamanho_id       Int
+  tamanho          Tamanhos  @relation(fields: [tamanho_id], references: [tam_id])
   produto          Produtos  @relation(fields: [produto_id], references: [prod_id])
   produto_id       Int
   carrinho_id      Int

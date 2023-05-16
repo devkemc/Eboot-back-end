@@ -2,11 +2,11 @@ import { CartaoEntity } from "../pagamento/cartao/cartao-entity";
 import { PessoaConstructor, PessoaEntity } from "./pessoa-entity";
 
 interface ClienteConstructor extends PessoaConstructor {
-  ranking: number;
+  ranking?: number;
   cartao?: CartaoEntity;
 }
 export class ClienteEntity extends PessoaEntity {
-  private _ranking: number;
+  private _ranking?: number;
   private _cartao?: CartaoEntity;
   constructor(cliente: ClienteConstructor) {
     super(cliente);

@@ -1,6 +1,6 @@
 import { PessoaEntity } from "../../domain/entities/pessoa/pessoa-entity";
 import { Result } from "../../presentation/helpers/result";
-import { ClienteRepository } from "../persistence/repository/cliente-repository";
+import { ClienteRepository } from "../persistence/repository/cliente/cliente-repository";
 import { ValidaExistencia } from "../strategies/valida-existência";
 import { ValidaSenhaForte } from "../strategies/valida-senha-forte";
 import { ValidarDadosObrigatoriosCliente } from "../strategies/validar-dados-obrigatorios-cliente";

@@ -29,10 +29,11 @@ export class EnderecoViewHelper extends AbstractViewHelper {
       nomeCidade,
       nomeEstado
     } = req.body
-    const pessoa = new PessoaEntity({id: pessoaId})
+    const pessoa = new PessoaEntity({id: req.query.clienteId ? Number(req.query.clienteId) :pessoaId})
     const estado = new EstadoEntity({nomeEstado});
     const cidade = new CidadeEntity({nomeCidade, estado});
     const endereco = new EnderecoEntity({
+      id: req.query.clienteId ? Number(req.query.clienteId) :pessoaId,
       tipoImovel,
       tipoEndereco,
       logradouro,

@@ -1,10 +1,10 @@
-import {ClienteEntity} from "../../../domain/entities/pessoa/cliente-entity";
-import {PessoaEntity} from "../../../domain/entities/pessoa/pessoa-entity";
-import {Result} from "../../../presentation/helpers/result";
-import {IRepositoryCrud} from "../../interfaces/i-repository-crud";
-import {Conection} from "./conection";
-import {HttpUnauthorized} from "../../../presentation/utils/errors/http-unauthorized";
-import {HttpBadRequest} from "../../../presentation/utils/errors/http-bad-request";
+import {ClienteEntity} from "../../../../domain/entities/pessoa/cliente-entity";
+import {PessoaEntity} from "../../../../domain/entities/pessoa/pessoa-entity";
+import {Result} from "../../../../presentation/helpers/result";
+import {IRepositoryCrud} from "../../../interfaces/i-repository-crud";
+import {Conection} from "../conection";
+import {HttpUnauthorized} from "../../../../presentation/utils/errors/http-unauthorized";
+import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-request";
 
 export class ClienteRepository implements IRepositoryCrud {
   constructor() {
@@ -51,7 +51,7 @@ export class ClienteRepository implements IRepositoryCrud {
               pes_admin: false,
               cliente: {
                 create: {
-                  ranking: clienteEntity.ranking
+                  ranking: clienteEntity!.ranking!
                 }
               }
             },

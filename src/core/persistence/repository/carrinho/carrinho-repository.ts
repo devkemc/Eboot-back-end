@@ -26,11 +26,14 @@ export class CarrinhoRepository implements IRepositoryCrud {
           car_id: entity.id
         },
         include: {
-          item_carrinho: true
+          item_carrinho:{
+            include:{
+              tamanho: true
+            }
+          }
         }
       })
       carrinho && (result.data = carrinho)
-      console.log(carrinho)
       result.message = "Carrinho recuperado com sucesso"
       result.status = 200
     } catch (e) {
