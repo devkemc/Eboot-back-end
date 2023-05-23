@@ -93,13 +93,15 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
     }
     return result
   }
-  public async getItemCarrinho(item:ItemCarrinhoEntity){
+
+  public async getItemCarrinho(item: ItemCarrinhoEntity) {
     return await Conection.getConection().itensCarrinho.findUnique({
-      where:{
+      where: {
         icar_id: item.id
       }
     })
   }
+
   public async update(itemCar: ItemCarrinhoEntity): Promise<Result> {
     const result = new Result()
     try {
