@@ -1,7 +1,4 @@
 import {Request} from "express";
-import {CidadeEntity} from "../../../domain/entities/pessoa/cidade-entity";
-import {EnderecoEntity} from "../../../domain/entities/pessoa/endereco-Entity";
-import {EstadoEntity} from "../../../domain/entities/pessoa/estado-entity";
 import {Entity} from "../../../domain/interfaces/i-entity";
 import {AbstractViewHelper} from "./abstract-view-helper";
 import {Produtos} from "@prisma/client";
@@ -25,22 +22,22 @@ export class ProductsViewHelper extends AbstractViewHelper {
     if (!Array.isArray(entity)) {
       const produto = entity as ProductWithCategory
       return {
-        id: produto.prod_id,
-        nome: produto.prod_nome,
-        descricao: produto.prod_descricao,
-        url_ft1: produto.prod_url_foto1,
-        url_ft2: produto.prod_url_foto2,
-        url_ft3: produto.prod_url_foto3,
-        preco: produto.prod_preco,
+        id: produto.prd_id,
+        nome: produto.prd_nome,
+        descricao: produto.prd_descricao,
+        url_ft1: produto.prd_url_foto1,
+        url_ft2: produto.prd_url_foto2,
+        url_ft3: produto.prd_url_foto3,
+        preco: produto.prd_preco,
         tamanhos:produto.tamanhos
       }
     }
     return (entity as ProductWithCategory[]).map((produto) => ({
-      id: produto.prod_id,
-      nome: produto.prod_nome,
+      id: produto.prd_id,
+      nome: produto.prd_nome,
       categoria: produto.categorias.cat_nome,
-      url_ft1: produto.prod_url_foto1,
-      preco: produto.prod_preco
+      url_ft1: produto.prd_url_foto1,
+      preco: produto.prd_preco
     }))
 
   }

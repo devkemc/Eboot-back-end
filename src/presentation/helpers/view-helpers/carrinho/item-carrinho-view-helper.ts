@@ -5,10 +5,10 @@ import {ItemCarrinhoEntity} from "../../../../domain/entities/carrinho/item-carr
 import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-entity";
 import {Entity} from "../../../../domain/interfaces/i-entity";
 import {ItensCarrinho} from "@prisma/client";
-import {itemCarrinho} from "../../../routes/endpoint";
 
 export class ItemCarrinhoViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
+    console.log(req.body)
     const {
       itemCarrinhoId,
       clienteId,
@@ -31,12 +31,12 @@ export class ItemCarrinhoViewHelper extends AbstractViewHelper {
   public setView(entity: Entity): Entity {
     const item = entity as ItensCarrinho
     return {
-      itemCarrinhoId: item.icar_id,
-      itemCarrinhoQuantidade: item.icar_quantidade,
-      itemCarrinhoTamanho: item.carrinho_id,
-      produtoId: item.produto_id,
-      carrinhoId: item.carrinho_id,
-      itemCarrinhoValorTotal: item.icar_valor_total
+      itemCarrinhoId: item.icr_id,
+      itemCarrinhoQuantidade: item.icr_quantidade,
+      itemCarrinhoTamanho: item.icr_car_id,
+      produtoId: item.icr_prd_id,
+      carrinhoId: item.icr_prd_id,
+      itemCarrinhoValorTotal: item.icr_valor_total
 
     }
 

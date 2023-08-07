@@ -51,7 +51,7 @@ export class ClienteRepository implements IRepositoryCrud {
               pes_admin: false,
               cliente: {
                 create: {
-                  ranking: clienteEntity!.ranking!
+                  cli_ranking: clienteEntity!.ranking!
                 }
               }
             },
@@ -62,10 +62,10 @@ export class ClienteRepository implements IRepositoryCrud {
           result.data = cliente
           await transaction.carrinhos.create({
             data: {
-              icar_valor_total: 0,
+              car_valor_total: 0,
               cliente: {
                 connect: {
-                  pes_id: cliente.pes_id
+                  cli_pes_id: cliente.pes_id
                 }
               }
             }
@@ -165,7 +165,7 @@ export class ClienteRepository implements IRepositoryCrud {
           pes_isActive: cliente.isActive,
           cliente: {
             update: {
-              ranking: cliente.ranking
+              cli_ranking: cliente.ranking!
             }
           }
         },

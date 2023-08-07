@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/presentation/server.ts",
+    "dev": "ts-node-dev  --respawn src/presentation/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "git-cz"
   },

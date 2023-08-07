@@ -35,7 +35,7 @@ export class ProdutoRepository  implements IRepositoryCrud{
     try{
       const product = await Conection.getConection().produtos.findUnique({
         where:{
-          prod_id :entity.id
+          prd_id :entity.id
         },
         include:{
           categorias:true,

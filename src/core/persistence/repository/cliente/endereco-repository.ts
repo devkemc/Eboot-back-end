@@ -8,6 +8,7 @@ import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-req
 export class EnderecoRepository implements IRepositoryCrud {
   public async create(endereco: EnderecoEntity): Promise<Result> {
     const result = new Result()
+    console.log(endereco)
     try {
       const createdEndereco =  await Conection.getConection().enderecos.create({
         data: {
@@ -46,6 +47,7 @@ export class EnderecoRepository implements IRepositoryCrud {
       result.status = 200
       result.message = 'Endereço adicionado com sucesso'
     } catch (e) {
+      console.log(e)
       throw new HttpBadRequest('Erro ao adicionar endereço. Tente novamente');
 
     }
@@ -65,7 +67,7 @@ export class EnderecoRepository implements IRepositoryCrud {
     try{
       const end = await Conection.getConection().enderecos.findMany({
         where:{
-          pessoa_id: endereco.pessoa?.id,
+          end_pes_id: endereco.pessoa!.id!,
           end_tipo_endereco: "ENTREGA"
         },
         include:{

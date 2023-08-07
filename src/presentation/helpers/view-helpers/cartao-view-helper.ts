@@ -15,7 +15,7 @@ export class CartaoViewHelper extends AbstractViewHelper {
       nomeImpresso,
       codSeguranca,
       bandeiraCartao,
-      validade,
+      validade: validade && new Date(validade),
       cliente
     })
     super(cartao)

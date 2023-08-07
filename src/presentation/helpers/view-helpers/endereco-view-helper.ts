@@ -19,7 +19,7 @@ interface EnderecoCompleto extends Enderecos {
 export class EnderecoViewHelper extends AbstractViewHelper {
   constructor(req: Request) {
     const {
-      pessoaId, tipoEndereco,
+      idEndereco, tipoEndereco,
       tipoLogradouro,
       tipoImovel,
       logradouro,
@@ -29,11 +29,11 @@ export class EnderecoViewHelper extends AbstractViewHelper {
       nomeCidade,
       nomeEstado
     } = req.body
-    const pessoa = new PessoaEntity({id: req.query.clienteId ? Number(req.query.clienteId) :pessoaId})
+    const pessoa = new PessoaEntity({id: req.query.clienteId ? Number(req.query.clienteId) :idEndereco})
     const estado = new EstadoEntity({nomeEstado});
     const cidade = new CidadeEntity({nomeCidade, estado});
     const endereco = new EnderecoEntity({
-      id: req.query.clienteId ? Number(req.query.clienteId) :pessoaId,
+      id: req.query.clienteId ? Number(req.query.clienteId) :idEndereco,
       tipoImovel,
       tipoEndereco,
       logradouro,

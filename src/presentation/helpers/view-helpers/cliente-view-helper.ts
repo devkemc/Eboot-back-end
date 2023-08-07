@@ -10,7 +10,7 @@ import {ClienteEntity} from "../../../domain/entities/pessoa/cliente-entity";
 
 interface ClientesPessoas extends Pessoas {
   cliente: {
-    ranking: number
+    cli_ranking: number
   }
 }
 export class ClienteViewHelper extends AbstractViewHelper {
@@ -98,7 +98,7 @@ export class ClienteViewHelper extends AbstractViewHelper {
       sobrenome: cli.pes_sobrenome,
       cpf: cli.pes_cpf,
       genero: cli.pes_genero,
-      ranking: cli.cliente.ranking,
+      ranking: cli.cliente.cli_ranking,
       isActive: cli.pes_isActive,
     }))
   }

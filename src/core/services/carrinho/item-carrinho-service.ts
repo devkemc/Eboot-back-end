@@ -14,9 +14,10 @@ export class ItemCarrinhoService extends AbsServiceCrud {
   }
 
   public async update(itemCarrinho: ItemCarrinhoEntity) {
+    console.log(itemCarrinho)
     const rep = new ItemCarrinhoRepository()
     const item = await rep.getItemCarrinho(itemCarrinho)
-    const produto = new ProdutoEntity({id: item!.produto_id})
+    const produto = new ProdutoEntity({id: item!.icr_prd_id})
     itemCarrinho.valorTotal = await this.calcularValorTotal( produto, itemCarrinho.quantidade!)
     return super.update(itemCarrinho);
   }
@@ -30,6 +31,6 @@ export class ItemCarrinhoService extends AbsServiceCrud {
   public async calcularValorTotal(produtoEntity: ProdutoEntity, quantidade: number) {
     const produtoRepository = new ProdutoRepository()
     const produto = (await produtoRepository.getOne(produtoEntity)).data as Produtos
-    return Number(produto.prod_preco) * quantidade
+    return Number(produto.prd_preco) * quantidade
   }
 }

@@ -7,7 +7,7 @@ import {ClienteEntity} from "../../../../domain/entities/pessoa/cliente-entity";
 
 interface CarrinhoComItem extends Carrinhos {
   item_carrinho: [{
-    icar_valor_total: number
+    icr_valor_total: number
   }]
 }
 
@@ -23,7 +23,7 @@ export class CarrinhoViewHelper extends AbstractViewHelper {
     const carrinho = entity as CarrinhoComItem
     return {
       carrinhoId: carrinho.car_id,
-      valorTotalCarrinho: carrinho.item_carrinho.reduce((accumulator, currentValue) => accumulator + currentValue.icar_valor_total,
+      valorTotalCarrinho: carrinho.item_carrinho.reduce((accumulator, currentValue) => accumulator + currentValue.icr_valor_total,
         initialValue
       ),
       itensCarrinho: carrinho.item_carrinho,

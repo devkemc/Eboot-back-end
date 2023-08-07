@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CrudController } from "../controllers/crud-controller";
-import {itemCarrinho, clientes, enderecos, produtos, carrinho, Endpoint} from "./endpoint";
+import {Endpoint} from "./endpoint";
 import { AuthenticateUserController } from "../controllers/authenticate-user-controller";
 import { ensureAuthenticated } from "../middlewares/ensure-authenticated";
 
@@ -26,6 +26,9 @@ routes.post(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
 routes.patch(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
 routes.delete(Endpoint.ITEM_CARRINHO, controllerCrud.handle)
 routes.get(Endpoint.CARRINHO, controllerCrud.handle)
+
+routes.get(Endpoint.CARTOES, controllerCrud.handle)
+routes.post(Endpoint.CARTOES, controllerCrud.handle)
 
 
 

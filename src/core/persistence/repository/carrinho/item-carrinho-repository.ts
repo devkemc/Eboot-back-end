@@ -4,9 +4,6 @@ import {Result} from "../../../../presentation/helpers/result";
 import {Conection} from "../conection";
 import {CarrinhoEntity} from "../../../../domain/entities/carrinho/carrinho-entity";
 import {HttpBadRequest} from "../../../../presentation/utils/errors/http-bad-request";
-import {Entity} from "../../../../domain/interfaces/i-entity";
-import {carrinho, itemCarrinho} from "../../../../presentation/routes/endpoint";
-import {ItemCarrinhoService} from "../../../services/carrinho/item-carrinho-service";
 
 export class ItemCarrinhoRepository implements IRepositoryCrud {
   public async create(itemCarrinho: ItemCarrinhoEntity): Promise<Result> {
@@ -15,7 +12,7 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
       await Conection.getConection().$transaction(async (trasanction) => {
         const carrinho = await trasanction.carrinhos.findUnique({
           where: {
-            cliente_id: itemCarrinho.carrinho?.id
+            car_cli_id: itemCarrinho.carrinho?.id
           },
           select: {
             car_id: true
@@ -23,11 +20,11 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
         })
         result.data = await trasanction.itensCarrinho.create({
           data: {
-            produto_id: itemCarrinho.produto!.id!,
-            icar_quantidade: itemCarrinho.quantidade!,
-            icar_valor_total: itemCarrinho.valorTotal!,
-            carrinho_id: carrinho!.car_id,
-            tamanho_id: itemCarrinho.tamanho!,
+            icr_prd_id: itemCarrinho.produto!.id!,
+            icr_quantidade: itemCarrinho.quantidade!,
+            icr_valor_total: itemCarrinho.valorTotal!,
+            icr_car_id: carrinho!.car_id,
+            icr_tam_id: itemCarrinho.tamanho!,
           },
           include: {
             tamanho: true
@@ -53,7 +50,7 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
     try {
       const carrinho = await Conection.getConection().itensCarrinho.delete({
         where: {
-          icar_id: item.id
+          icr_id: item.id
         }
       })
       result.data = carrinho
@@ -74,7 +71,7 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
     try {
       const itensCarrinho = await Conection.getConection().carrinhos.findUnique({
         where: {
-          cliente_id: carrinho.id
+          car_cli_id: carrinho.id
         },
         include: {
           item_carrinho: {
@@ -97,7 +94,7 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
   public async getItemCarrinho(item: ItemCarrinhoEntity) {
     return await Conection.getConection().itensCarrinho.findUnique({
       where: {
-        icar_id: item.id
+        icr_id: item.id
       }
     })
   }
@@ -107,11 +104,11 @@ export class ItemCarrinhoRepository implements IRepositoryCrud {
     try {
       const item = await Conection.getConection().itensCarrinho.update({
         where: {
-          icar_id: itemCar.id
+          icr_id: itemCar.id
         },
         data: {
-          icar_valor_total: itemCar.valorTotal,
-          icar_quantidade: itemCar.quantidade
+          icr_valor_total: itemCar.valorTotal,
+          icr_quantidade: itemCar.quantidade
         }
       })
       result.data = item
